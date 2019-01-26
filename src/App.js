@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+function hello(message) {
+  console.log(message)
+}
+
 class App extends Component {
   render() {
     return (

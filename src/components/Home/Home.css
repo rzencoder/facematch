@@ -1,0 +1,16 @@
+.home-title {
+    font-size: 50px;
+    font-weight: 400;
+}
+
+.home-title span {
+    font-weight: 700;
+}
+
+.home-img {
+    width: 300px;
+}
+
+.tagline {
+    font-size: 18px;
+}
