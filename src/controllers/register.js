@@ -27,7 +27,6 @@ const handleRegister = (req, res, knex, bcrypt) => {
     })
     
 }
-
-export default {
+module.exports = {
     handleRegister: handleRegister
 }

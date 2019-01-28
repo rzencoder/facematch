@@ -1,8 +1,21 @@
 import React from 'react';
 import './SignIn.css';
 
-class SignIn extends React.Component {
-  constructor(props) {
+interface Props {
+  loadUser: any,
+  route: string,
+  onRouteChange: any
+}
+
+interface State {
+  email: string,
+  password: string,
+  name: string,
+  error: string
+}
+
+class SignIn extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       email: '',
@@ -12,20 +25,20 @@ class SignIn extends React.Component {
     };
   }
 
-  onNameChange = (event) => {
+  onNameChange = (event:any) => {
       this.setState({ name: event.target.value });
     }
 
-    onEmailChange = (event) => {
+    onEmailChange = (event:any) => {
       this.setState({ email: event.target.value });
     }
 
-    onPasswordChange = (event) => {
+    onPasswordChange = (event:any) => {
       this.setState({ password: event.target.value });
     }
 
     onSubmit = () => {
-      const url = '/' + this.props.route;
+      const url:string = '/' + this.props.route;
       fetch(url,
         {
           method: 'post',
@@ -49,7 +62,7 @@ class SignIn extends React.Component {
     }
 
     render() {
-      const title = this.props.route.toUpperCase();
+      const title:string = this.props.route.toUpperCase();
       return (
         
         <div className="form-container">

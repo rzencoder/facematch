@@ -2,7 +2,11 @@ import React from 'react';
 import './Home.css';
 import image from './home.png'
 
-const Home = ({ onRouteChange }) => (
+interface HomeProps {
+    onRouteChange: any
+}
+
+const Home = ({ onRouteChange }: HomeProps) => (
     <div>    
         <h1 className="home-title">
           Face<span>Match</span>

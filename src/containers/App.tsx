@@ -5,6 +5,11 @@ import FaceRecognition from '../components/FaceRecognition/FaceRecognition';
 import Rank from '../components/Rank/Rank';
 import SignIn from '../components/SignIn/SignIn';
 import Home from '../components/Home/Home';
+import Profile from '../components/Profile/Profile';
+
+interface AppProps {
+
+}
 
 const initialState = {
   input: '',
@@ -22,13 +27,27 @@ const initialState = {
   },
 };
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = initialState;
-  }
+interface AppState {
+  input: string,
+  imageUrl: string,
+  boxes: any,
+  route: string,
+  isSignedIn: boolean,
+  errorMessage: string,
+  user: {
+    id: number,
+    name: string,
+    email: string,
+    entries: number,
+    joined: string,
+  },
+}
+type State = Readonly<typeof initialState>
 
-  loadUser = (data) => {
+class App extends Component {
+  readonly state: State = initialState;
+
+  private loadUser = (data:any) : void => {
     this.setState({
       user: {
         id: data.id,
@@ -40,13 +59,13 @@ class App extends Component {
     });
   }
 
-  calculateFaceLocation = (data) => {
+  private calculateFaceLocation = (data:any) => {
     // Use api data to calculate face box data to display over image
-    const image = document.getElementById('imageInput');
-    const width = parseInt(image.width, 10);
-    const height = parseInt(image.height, 10);
+    const image = document.getElementById('imageInput') as HTMLCanvasElement;
+    const width = image.width;
+    const height = image.height;
     const faceParameters = data.outputs[0].data.regions;
-    const boxes = faceParameters.map((face) => {
+    const boxes = faceParameters.map((face:any) => {
       const faceData = face.region_info.bounding_box;
       return {
         leftCol: faceData.left_col * width,
@@ -58,16 +77,16 @@ class App extends Component {
     return boxes;
   }
 
-  displayFaceBoxes = (boxes) => {
+  private displayFaceBoxes = (boxes: any) : void => {
     this.setState({ boxes });
   }
 
-  onInputChange = (event) => {
+  private onInputChange = (event: any) : void => {
     this.setState({ input: event.target.value });
   }
 
-  onSubmit = () => {
-    const { input } = this.state;
+  private onSubmit = () => {
+    const input = this.state.input;
     this.setState({
       imageUrl: input,
     });
@@ -103,7 +122,7 @@ class App extends Component {
       .catch(err => this.setState({errorMessage: 'Error loading API'}));
   }
 
-  onRouteChange = (route) => {
+  onRouteChange = (route:string) : void => {
     if (route === 'landing') {
       this.setState(initialState);
     } else if (route === 'home') {
@@ -130,12 +149,13 @@ class App extends Component {
           <div>
             <Rank name={this.state.user.name} entries={this.state.user.entries}/>
             <div className="face-search-container">
-            Hello!!!!!!!!
               <ImageForm onInputChange={this.onInputChange} onSubmit={this.onSubmit}/>
               <FaceRecognition boxes={boxes} imageUrl={imageUrl}/>
             </div>
           </div>
           :  
+          route === 'profile' ? 
+          <Profile /> :
           <SignIn route={route} loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
         }
       </div>

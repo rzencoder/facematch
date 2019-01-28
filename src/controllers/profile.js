@@ -11,6 +11,6 @@ const handleGetProfile = (req, res, knex) => {
     .catch(err => res.status(400).json('Error finding user'))
 }
 
-export default {
+module.exports = {
     handleGetProfile: handleGetProfile
 }

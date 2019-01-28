@@ -1,9 +1,14 @@
 import React from 'react';
 import './FaceRecognition.css';
 
-const FaceRecognition = ({ imageUrl, boxes }) => {
+interface FaceProps {
+  imageUrl: string,
+  boxes: any,
+}
+
+const FaceRecognition = ({ imageUrl, boxes }: FaceProps) => {
     let width = window.innerWidth < 400 ? '300px' : '500px';
-    const faceBoxes = boxes.map(( box, i )=> {
+    const faceBoxes = boxes.map(( box:any, i:number )=> {
       return ( 
         <div key={i} className="bounding-box" style={{
           top: box.topRow, right: box.rightCol, left: box.leftCol, bottom: box.bottomRow,

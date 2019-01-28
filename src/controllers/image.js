@@ -26,7 +26,7 @@ const handleImage = (req, res, knex) => {
         .catch(err => res.status(400).json("unable to get entries"))
 }
 
-export default {
+module.exports = {
     handleImage: handleImage,
     handleApiCall: handleApiCall
 }

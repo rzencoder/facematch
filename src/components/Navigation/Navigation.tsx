@@ -2,7 +2,12 @@ import React from 'react';
 import './Navigation.css';
 import face from './face.png';
 
-const Navigation = ({ onRouteChange, isSignedIn }) => (
+interface NavProps {
+    onRouteChange: any,
+    isSignedIn: boolean
+}
+
+const Navigation = ({ onRouteChange, isSignedIn }: NavProps) => (
     <div className="nav-container">
         <div className="logo-container">
             <div>
@@ -12,6 +17,7 @@ const Navigation = ({ onRouteChange, isSignedIn }) => (
         </div>
         { isSignedIn ? 
         <nav className="nav">
+            <p onClick={() => onRouteChange('profile')}>Profile</p>
             <p onClick={() => onRouteChange('landing')}>Sign Out</p>
         </nav>
         : 

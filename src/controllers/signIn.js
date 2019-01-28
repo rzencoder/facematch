@@ -21,6 +21,6 @@ const handleSignIn = (req, res, knex, bcrypt) => {
     .catch(err => res.status(400).json('Incorrect email and/or password'))
 }
 
-export default {
+module.exports = {
     handleSignIn: handleSignIn
 }

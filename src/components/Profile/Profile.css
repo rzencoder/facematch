@@ -1,0 +1,33 @@
+.profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80%;
+}
+
+.profile-container {
+    background: linear-gradient(145deg, rgb(221, 65, 18), rgb(241, 118, 18));
+    width: 30%;
+    height: 80%;
+    border-radius: 10px;
+}
+
+.box1 {
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle {
+    width: 100px;
+    height: 100px;
+    background: #eee;
+    border-radius: 50%;
+}
+
+
+.box2 {
+    height: 50%;
+    background: #ddd;
+}

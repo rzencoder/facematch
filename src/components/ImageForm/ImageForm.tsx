@@ -1,7 +1,12 @@
 import React from 'react';
 import './ImageForm.css';
 
-const ImageForm = ({ onInputChange, onSubmit }) => (
+interface ImageProps {
+    onInputChange: any,
+    onSubmit: any
+}
+
+const ImageForm = ({ onInputChange, onSubmit }: ImageProps) => (
     <div>
         <div>
             <input className="url-input" type="text" onChange={onInputChange} placeholder="Enter Image URL" required></input>
