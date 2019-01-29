@@ -1,24 +1,24 @@
 const handleSignIn = (req, res, knex, bcrypt) => {
-    const {email, password} = req.body;
-    if(!email || !password) {
+    const {username, password} = req.body;
+    if(!username || !password) {
         return res.status(400).json('incorrect form submission');
     }
-    knex.select('email', 'hash').from('login')
-    .where('email', '=', email)
+    knex.select('username', 'hash').from('login')
+    .where('username', '=', username)
     .then(data => {
         const isValid = bcrypt.compareSync(password, data[0].hash)
         if(isValid) {
             return knex.select('*').from('users')
-            .where('email', '=', email)
+            .where('username', '=', username)
             .then(user => {
                 console.log(user[0])
                 res.json(user[0])
             })
             .catch(err =>res.status(400).json('Unable to find user'))
         }
-        res.status(400).json('Incorrect email and/or password')
+        res.status(400).json('Incorrect username and/or password')
     })
-    .catch(err => res.status(400).json('Incorrect email and/or password'))
+    .catch(err => res.status(400).json('Incorrect username and/or password'))
 }
 
 module.exports = {

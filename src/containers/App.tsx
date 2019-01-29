@@ -21,9 +21,11 @@ const initialState = {
   user: {
     id: 0,
     name: '',
-    email: '',
+    username: '',
     entries: 0,
     joined: new Date(),
+    avatar: '1',
+    location: ' '
   },
 };
 
@@ -37,7 +39,7 @@ interface AppState {
   user: {
     id: number,
     name: string,
-    email: string,
+    username: string,
     entries: number,
     joined: string,
   },
@@ -51,10 +53,12 @@ class App extends Component {
     this.setState({
       user: {
         id: data.id,
+        username: data.username,
         name: data.name,
-        email: data.email,
         entries: data.entries,
         joined: data.joined,
+        avatar: data.avatar,
+        location: data.location
       },
     });
   }
@@ -135,6 +139,17 @@ class App extends Component {
     }
   }
 
+  updateProfile = (data: any) => {
+    this.setState({
+      user: {
+        name: data.name,
+        username: data.username,
+        location: data.location,
+        avatar: data.avatar
+      }
+    })
+  }
+
   render() { 
     const {
       isSignedIn, imageUrl, route, boxes,
@@ -155,7 +170,7 @@ class App extends Component {
           </div>
           :  
           route === 'profile' ? 
-          <Profile /> :
+          <Profile onRouteChange={this.onRouteChange} user={this.state.user} updateProfile={this.updateProfile}/> :
           <SignIn route={route} loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
         }
       </div>

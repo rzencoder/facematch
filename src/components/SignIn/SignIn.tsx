@@ -8,7 +8,7 @@ interface Props {
 }
 
 interface State {
-  email: string,
+  username: string,
   password: string,
   name: string,
   error: string
@@ -18,7 +18,7 @@ class SignIn extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      email: '',
+      username: '',
       password: '',
       name: '',
       error: ''
@@ -29,8 +29,8 @@ class SignIn extends React.Component<Props, State> {
       this.setState({ name: event.target.value });
     }
 
-    onEmailChange = (event:any) => {
-      this.setState({ email: event.target.value });
+    onUsernameChange = (event:any) => {
+      this.setState({ username: event.target.value });
     }
 
     onPasswordChange = (event:any) => {
@@ -44,7 +44,7 @@ class SignIn extends React.Component<Props, State> {
           method: 'post',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            email: this.state.email,
+            username: this.state.username,
             password: this.state.password,
             name: this.state.name
           }),
@@ -75,8 +75,8 @@ class SignIn extends React.Component<Props, State> {
                 <input onChange={this.onNameChange} type="text" name="name" id="name" required/>
             </div> : '' }
             <div className="input-container">
-                <label htmlFor="email-address">Email</label>
-                <input onChange={this.onEmailChange} type="email" name="email-address" id="email-address" required/>
+                <label htmlFor="username">username</label>
+                <input onChange={this.onUsernameChange} type="text" name="username" id="username" required/>
             </div>
             <div className="input-container">
                 <label htmlFor="password">Password</label>

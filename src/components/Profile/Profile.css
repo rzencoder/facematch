@@ -3,6 +3,12 @@
     align-items: center;
     justify-content: center;
     height: 80%;
+    color: #333;
+}
+
+.profile-close {
+    position: absolute;
+    right: 0px;
 }
 
 .profile-container {
@@ -12,18 +18,53 @@
     border-radius: 10px;
 }
 
+.profile-item {
+    display: flex;
+    justify-content: space-between;
+}
+
 .box1 {
+    position: relative;
     height: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.circle {
-    width: 100px;
-    height: 100px;
-    background: #eee;
+.avatar {
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
+}
+
+.avatar1 {
+    background: url('./avatar1.png');
+    background-size: contain;
+}
+
+.avatar2 {
+    background: url('./avatar2.png');
+    background-size: contain;
+}
+
+.avatar3 {
+    background: url('./avatar3.png');
+    background-size: contain;
+}
+
+.avatar4 {
+    background: url('./avatar4.png');
+    background-size: contain;
+}
+
+.avatar5 {
+    background: url('./avatar5.png');
+    background-size: contain;
+}
+
+.avatar6 {
+    background: url('./avatar6.png');
+    background-size: contain;
 }
 
 
