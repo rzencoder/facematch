@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Profile.css';
+import './Profile.scss';
 import AvatarModal from '../AvatarModal/AvatarModal';
 
 interface ProfileProps {
@@ -19,6 +19,7 @@ interface ProfileState {
     
 
 class Profile extends Component <ProfileProps, ProfileState> {
+    private textInput: React.RefObject<HTMLInputElement>;
     constructor(props: ProfileProps) {
         super(props)
         this.state = {
@@ -29,7 +30,23 @@ class Profile extends Component <ProfileProps, ProfileState> {
             avatar: this.props.user.avatar,
             modal: false
         }
+        this.textInput = React.createRef();
+        
+        
     }
+
+    setTextInputRef = (element:any) => {
+    this.textInput = element;
+    console.log(element)
+    console.log(this.textInput)
+};
+
+    focusTextInput = () => {
+    // Focus the text input using the raw DOM API
+    if (this.textInput) this.textInput;
+};
+
+
 
     showModal = () => {
         this.setState({ modal: true });
@@ -38,6 +55,7 @@ class Profile extends Component <ProfileProps, ProfileState> {
     hideModal = () => {
         this.setState({ modal: false });
     };
+
 
     updateAvatar (avatar:number) {
         const a = avatar.toString()
@@ -56,6 +74,8 @@ class Profile extends Component <ProfileProps, ProfileState> {
         }));
     }
 
+
+
     render () {
         const { avatar, searches, name, username, location } = this.state;
         const avatars = [1,1,1,1,1,1].map((avatar:any, i:number) => {
@@ -69,31 +89,31 @@ class Profile extends Component <ProfileProps, ProfileState> {
                 <div className="profile-container">
                 <div className="box1">
                     <div className={"avatar avatar" + avatar}></div>
-                        <div className="profile-close" onClick={() => this.props.onRouteChange('home')}>X</div>
+                        <div className="fa fa-times profile-close" onClick={() => this.props.onRouteChange('home')}></div>
                 </div>
                 <div className="box2">
                     <div className="profile-details">
                         <div className="profile-item">
-                            <input name="username" onChange={(event) => {this.onChange(event)}} value={username}></input>
-                            <button className="fa fa-edit"></button>
+                                <input className="profile-item-username" name="username" ref={this.setTextInputRef} onChange={(event) => {this.onChange(event)}} value={username}></input>
+                                <div onClick={this.focusTextInput} className="fa fa-edit"></div>
                         </div>
                         <div className="profile-item">
-                                <input name="name" onChange={(event) => { this.onChange(event) }} value={name}></input>
-                            <button className="fa fa-edit"></button>
+                                <input className="profile-item-name" name="name" ref={this.setTextInputRef} onChange={(event) => { this.onChange(event) }} value={name}></input>
+                                <div onClick={this.focusTextInput} className="fa fa-edit"></div>
                         </div>
                         <div className="profile-item">
-                            <input name="location" onChange={(event) => { this.onChange(event) }} value={location}></input>
-                            <button className="fa fa-edit"></button>
+                                <input className="profile-item-location" name="location" ref={this.setTextInputRef} onChange={(event) => { this.onChange(event) }} value={location}></input>
+                                <div onClick={this.focusTextInput} className="fa fa-edit"></div>
                         </div>
                         <div className="profile-item">
                             <div>Searches: {searches}</div>
                             
                         </div>
-                        <button onClick={this.showModal}>Choose Avatar</button>
+                        <button className="btn avatar-btn" onClick={this.showModal}>Choose Avatar</button>
                             <AvatarModal show={this.state.modal} handleClose={this.hideModal}>
                                 {avatars}
                             </AvatarModal>
-                        <button type="submit" onClick={() => this.props.updateProfile(this.state)}>Update Profile</button>
+                        <button className="btn update-profile-btn" type="submit" onClick={() => this.props.updateProfile(this.state)}>Save</button>
                     </div>
                 </div>
                 </div>

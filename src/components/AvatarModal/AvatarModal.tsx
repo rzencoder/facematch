@@ -1,5 +1,5 @@
 import React from 'react';
-import './AvatarModal.css';
+import './AvatarModal.scss';
 
 interface ModalProps {
     show: boolean,
@@ -12,7 +12,7 @@ const AvatarModal = ({ show, handleClose, children }: ModalProps) => {
     return (
         <div className={modalClass}>
             <section className="modal-main">
-                <button onClick={handleClose}>close</button>
+                <div className="fa fa-times" onClick={handleClose}></div>
                 <div className="modal-container">
                     {children}
                 </div>

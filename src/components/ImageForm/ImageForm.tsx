@@ -1,5 +1,5 @@
 import React from 'react';
-import './ImageForm.css';
+import './ImageForm.scss';
 
 interface ImageProps {
     onInputChange: any,

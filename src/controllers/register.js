@@ -16,7 +16,7 @@ const handleRegister = (req, res, knex, bcrypt) => {
             .returning('*')
             .insert({
                 name: name,
-                email: loginUsername[0],
+                username: loginUsername[0],
                 joined: new Date(),
                 avatar: 1,
                 location: ''

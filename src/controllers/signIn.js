@@ -6,6 +6,7 @@ const handleSignIn = (req, res, knex, bcrypt) => {
     knex.select('username', 'hash').from('login')
     .where('username', '=', username)
     .then(data => {
+        console.log(req.body)
         const isValid = bcrypt.compareSync(password, data[0].hash)
         if(isValid) {
             return knex.select('*').from('users')
