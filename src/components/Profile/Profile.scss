@@ -1,9 +1,22 @@
+@import '../../partials/variables';
+
 .profile {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 500px;
-    color: #333;
+    color: $secondary-font-color;
+}
+
+.profile-container {
+    background: linear-gradient(145deg, rgb(221, 65, 18), rgb(241, 118, 18));
+    width: 30%;
+    min-width: 350px;
+    height: 80%;
+    border-radius: 10px;
+    @media (max-width: 400px) {
+        min-width: 280px;
+    }
 }
 
 .profile-close {
@@ -11,19 +24,14 @@
     right: 0px;
 }
 
-.profile-container {
-    background: linear-gradient(145deg, rgb(221, 65, 18), rgb(241, 118, 18));
-    width: 30%;
-    height: 80%;
-    border-radius: 10px;
-}
-
 .profile-item {
     display: flex;
     justify-content: center;
+    position: relative;
+    width: 100%;
 }
 
-.box1 {
+.profile-top {
     position: relative;
     height: 50%;
     display: flex;
@@ -68,8 +76,7 @@
 }
 
 
-.box2 {
-    height: 50%;
+.profile-bottom {
     background: rgb(253, 255, 245);
     border-radius: 0 0 10px 10px;
 }
@@ -78,38 +85,63 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center;  
     input {
-        width: auto;
+        width: 80%;
         border: none;
         text-align: center;
         background-color: inherit;
         cursor: default;
+        transition: border 0.3s;
         &:focus {
             cursor: text;
+            border: 1.5px solid $background-color;
+            background-color: #f5f5dc;
         }
     }
 }
 
+.profile-item-username {
+    font-size: 30px;
+    font-weight: 700;
+    padding: 10px;
+}
+
+.profile-item-name {
+    font-size: 20px;
+    padding: 2px;
+}
+
+.profile-item-location {
+    font-size: 20px;
+    padding: 2px;
+    margin-bottom: 5px;
+}
+
 .avatar-btn {
-    background: rgb(52, 52, 189);
+    background: $background-color;
     font-size: 16px;
     padding: 8px 12px;
     font-weight: 400;
     width: 40%;
     margin: 5px;
+    &:hover {
+        background: lighten($background-color, 10%);
+    }
 }
 
 .update-profile-btn {
-    background: rgb(9, 141, 31);
     font-size: 20px;
     padding: 10px 20px;
     width: 50%;
-    margin: 5px;
+    margin: 5px 5px 15px;
 }
 
 .fa-edit {
     color: #bbb;
+    position: absolute;
+    right: 10px;
+    top: 30%;
     &:hover {
         cursor: pointer;
     }

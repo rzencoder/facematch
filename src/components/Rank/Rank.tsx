@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './Rank.scss';
 
 interface RankProps {
   name: string,
@@ -6,7 +7,10 @@ interface RankProps {
 }
 
 const Rank = ({name, entries}: RankProps) => (
-  <div> Welcome {name}! You have searched for {entries} images </div>
+  <div> 
+    <div className="welcome-title">Welcome {name} </div>
+    <div className="welcome-text">You have searched for {entries} images</div>
+  </div>
 );
 
 export default Rank;

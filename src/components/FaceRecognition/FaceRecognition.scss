@@ -1,6 +1,8 @@
+@import '../../partials/variables';
+
 .bounding-box {
     position: absolute;
-    border: 3px solid rgb(255, 81, 0);
+    border: 3px solid $secondary-background-color;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -13,5 +15,5 @@
 
 .image-container {
     position: absolute;
-    margin-top: 50px;
+    margin: 50px;
 }

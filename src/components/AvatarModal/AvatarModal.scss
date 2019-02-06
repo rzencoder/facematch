@@ -1,3 +1,5 @@
+@import '../../partials/variables';
+
 .modal {
     position: fixed;
     top: 0;
@@ -9,8 +11,7 @@
 
 .modal-main {
     position: fixed;
-    background: rgb(255, 255, 238);
-    // width: 50%;
+    background: $base-font-color;
     height: auto;
     top: 50%;
     left: 50%;
@@ -26,7 +27,6 @@
     flex-wrap: wrap;
     justify-content: center;
     padding: 20px 10px;
-    
     > div {
         margin: 15px;
         transition: transform 0.5s;
@@ -44,18 +44,16 @@
 
 .fa-times {
     position: absolute;
-    color: #333;
+    color: $secondary-font-color;
     right: 5px;
     top: 5px;
     font-size: 26px;
     transition: color 0.3s;
     &:hover {
-        color: #555;
+        color: lighten($secondary-font-color, 10%);        
         cursor: pointer;
     }
 }
-
-
 
 .display-block {
     display: block;

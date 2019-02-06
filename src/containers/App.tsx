@@ -141,6 +141,7 @@ class App extends Component {
 
   updateProfile = (data: any) => {
     this.setState({
+      route: 'home',
       user: {
         name: data.name,
         username: data.username,

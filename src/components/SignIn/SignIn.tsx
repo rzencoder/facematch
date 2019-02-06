@@ -62,7 +62,7 @@ class SignIn extends React.Component<Props, State> {
     }
 
     render() {
-      const title:string = this.props.route.toUpperCase();
+      const title:string = this.props.route === 'signin' ? 'SIGN IN' : 'REGISTER';
       return (
         
         <div className="form-container">
@@ -75,7 +75,7 @@ class SignIn extends React.Component<Props, State> {
                 <input onChange={this.onNameChange} type="text" name="name" id="name" required/>
             </div> : '' }
             <div className="input-container">
-                <label htmlFor="username">username</label>
+                <label htmlFor="username">Username</label>
                 <input onChange={this.onUsernameChange} type="text" name="username" id="username" required/>
             </div>
             <div className="input-container">
@@ -84,7 +84,7 @@ class SignIn extends React.Component<Props, State> {
             </div>
             </div>
             <div>
-            <input className="submit-btn" onClick={this.onSubmit} type="submit" value="Sign in" />
+            <input className="submit-btn" onClick={this.onSubmit} type="submit" value={title} />
             </div>
             </div>
         </div>

@@ -1,0 +1,17 @@
+@import './partials/variables';
+
+.btn {
+    background: $secondary-background-color;
+    color: $base-font-color;
+    font-size: 20px;
+    padding: 10px 60px;
+    border-radius: 5px;
+    margin: 20px;
+    border: none;
+    box-shadow: 2px 2px 3px #666;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: lighten($secondary-background-color, 7%);
+}

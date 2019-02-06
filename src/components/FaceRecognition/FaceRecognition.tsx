@@ -7,7 +7,7 @@ interface FaceProps {
 }
 
 const FaceRecognition = ({ imageUrl, boxes }: FaceProps) => {
-    let width = window.innerWidth < 400 ? '300px' : '500px';
+    let width = window.innerWidth < 400 ? '280px' : '500px';
     const faceBoxes = boxes.map(( box:any, i:number )=> {
       return ( 
         <div key={i} className="bounding-box" style={{
@@ -19,7 +19,7 @@ const FaceRecognition = ({ imageUrl, boxes }: FaceProps) => {
     return (
       <div className="image-wrap">
           <div className="image-container">
-              <img id="imageInput" src={imageUrl} alt="faces" width={width} height="auto"/>
+              <img id="imageInput" src={imageUrl} alt="" width={width} height="auto"/>
               {faceBoxes}  
           </div>
       </div>

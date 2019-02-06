@@ -1,3 +1,5 @@
+@import '../../partials/variables';
+
 .form-container {
     display: flex;
     justify-content: center;
@@ -7,16 +9,16 @@
 
 .form {
     background: #fcfdf9;
-    border-top: 4px solid orangered;
-    color: #333;
+    border-top: 4px solid $secondary-background-color;
+    color: $secondary-font-color;
     max-width: 400px;
     width: 400px;
     margin: 100px 20px;
 }
 
 .submit-btn {
-    background: orangered;
-    color: white;
+    background: $secondary-background-color;
+    color: $base-font-color;
     width: 100%;
     border: none;
     padding: 10px;
@@ -27,7 +29,7 @@
 }
 
 .submit-btn:hover {
-    background: rgb(236, 82, 26)
+    background: lighten($secondary-background-color, 8%);
 }
 
 .form-title {

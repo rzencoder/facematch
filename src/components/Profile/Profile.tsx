@@ -87,11 +87,11 @@ class Profile extends Component <ProfileProps, ProfileState> {
         return (
             <div className="profile">
                 <div className="profile-container">
-                <div className="box1">
+                <div className="profile-top">
                     <div className={"avatar avatar" + avatar}></div>
                         <div className="fa fa-times profile-close" onClick={() => this.props.onRouteChange('home')}></div>
                 </div>
-                <div className="box2">
+                <div className="profile-bottom">
                     <div className="profile-details">
                         <div className="profile-item">
                                 <input className="profile-item-username" name="username" ref={this.setTextInputRef} onChange={(event) => {this.onChange(event)}} value={username}></input>
@@ -102,7 +102,7 @@ class Profile extends Component <ProfileProps, ProfileState> {
                                 <div onClick={this.focusTextInput} className="fa fa-edit"></div>
                         </div>
                         <div className="profile-item">
-                                <input className="profile-item-location" name="location" ref={this.setTextInputRef} onChange={(event) => { this.onChange(event) }} value={location}></input>
+                                <input className="profile-item-location" name="location" placeholder="Add Location" ref={this.setTextInputRef} onChange={(event) => { this.onChange(event) }} value={location}></input>
                                 <div onClick={this.focusTextInput} className="fa fa-edit"></div>
                         </div>
                         <div className="profile-item">
