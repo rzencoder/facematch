@@ -53,7 +53,7 @@ knex.select('*').from('users').then(data => console.log(data));
 //     res.send(database.users)
 // })
 
-app.post('/signin', (req, res) => signIn.handleSignIn(req, res, knex, bcrypt));
+app.post('/signin', (req, res) => signIn.signinAuth(req, res, knex, bcrypt));
 app.post('/register', (req, res) => register.handleRegister(req, res, knex, bcrypt));
 app.get('/profile/:id', (req, res) => profile.handleGetProfile(req, res, knex));
 app.put('/image', (req, res) => image.handleImage(req, res, knex));

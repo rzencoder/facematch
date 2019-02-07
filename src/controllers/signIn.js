@@ -1,9 +1,14 @@
+const jwt = require('jsonwebtoken');
+const redis = require('redis');
+const client = redis.createClient({host: 'localhost'});
+
+
 const handleSignIn = (req, res, knex, bcrypt) => {
     const {username, password} = req.body;
     if(!username || !password) {
-        return res.status(400).json('incorrect form submission');
+        return Promise.reject('incorrect form submission');
     }
-    knex.select('username', 'hash').from('login')
+    return knex.select('username', 'hash').from('login')
     .where('username', '=', username)
     .then(data => {
         console.log(req.body)
@@ -11,17 +16,62 @@ const handleSignIn = (req, res, knex, bcrypt) => {
         if(isValid) {
             return knex.select('*').from('users')
             .where('username', '=', username)
-            .then(user => {
-                console.log(user[0])
-                res.json(user[0])
-            })
-            .catch(err =>res.status(400).json('Unable to find user'))
+            .then(user => (user[0]))
+            .catch(err => Promise.reject('Unable to find user'))
         }
-        res.status(400).json('Incorrect username and/or password')
+        Promise.reject('Incorrect username and/or password')
     })
-    .catch(err => res.status(400).json('Incorrect username and/or password'))
+    .catch(err => Promise.reject('Incorrect username and/or password'))
+}
+
+const getAuthToken = (req, res) => {
+    const { authorization } = req.headers;
+    return client.get(authorization, (err, reply) => {
+        if (err || !reply) {
+            return res.status(400).json('Unauthorized');
+        }
+        return res.json({id: reply});
+    })
+}
+
+const signToken = (username) => {
+    const jwtPayload = { username };
+    return jwt.sign( jwtPayload, process.env.JWTSECRET, { expiresIn: '2 days'});
+}
+
+const setToken = (id, token) => {
+    return Promise.resolve(client.set(token, id))
+}
+
+const createSession = (user) => {
+    const { username, id } = user;
+    const token = signToken(username);
+    return setToken(id, token)
+        .then(() => {
+            return {
+                success: 'true',
+                id: id,
+                token: token
+            }
+        })
+        .catch(() => console.log('err'))
+    
+}
+
+const signinAuth = (req, res, knex, bcrypt) => { 
+    const { authorization } = req.headers;
+    return authorization ? getAuthToken(req, res) : 
+        handleSignIn(req, res, knex, bcrypt)
+            .then(data => { 
+                return data.username && data.id ? createSession(data) : Promise.reject(data);
+            })
+            .then( session =>{ 
+                console.log(session)
+                res.json(session)})
+            .catch(err => res.status(400).json(err))
+
 }
 
 module.exports = {
-    handleSignIn: handleSignIn
+    signinAuth: signinAuth
 }
