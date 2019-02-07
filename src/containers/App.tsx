@@ -63,6 +63,41 @@ class App extends Component {
     });
   }
 
+  componentDidMount () {
+    const token = window.sessionStorage.getItem('token');
+    if (token) {
+      fetch('/signin',
+        {
+          method: 'post',
+          headers: { 
+            'Content-Type': 'application/json',
+            authorization: token 
+          }
+        })
+        .then(resp => resp.json())
+        .then(data => {
+          if (data && data.id) {
+            fetch(`/profile/${data.id}`, { 
+              method: 'get',
+              headers: {
+                'Content-Type': 'application/json',
+                authorization: token
+              }
+            })
+            .then(resp => resp.json())
+            .then(user => {
+              if (user && user.username) {
+                console.log(user)
+                this.loadUser(user)
+                this.onRouteChange('home')
+              }
+            })
+          }
+        })
+        .catch(console.log)
+    }
+  }
+
   private calculateFaceLocation = (data:any) => {
     // Use api data to calculate face box data to display over image
     const image = document.getElementById('imageInput') as HTMLCanvasElement;

@@ -72,6 +72,7 @@ const signinAuth = (req, res, knex, bcrypt) => {
 
 }
 
-module.exports = {
-    signinAuth: signinAuth
+export default {
+    signinAuth: signinAuth,
+    client: client
 }

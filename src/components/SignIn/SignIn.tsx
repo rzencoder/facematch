@@ -37,6 +37,10 @@ class SignIn extends React.Component<Props, State> {
       this.setState({ password: event.target.value });
     }
 
+    saveAuthToken = (token: string) => {
+      window.sessionStorage.setItem('token', token);
+    }
+
     onSubmit = () => {
       const url:string = '/' + this.props.route;
       fetch(url,
@@ -50,9 +54,24 @@ class SignIn extends React.Component<Props, State> {
           }),
         }).then(response => response.json())
         .then((data) => {
-          if (data.id) {
-            this.props.loadUser(data);
-            this.props.onRouteChange('home');
+            this.saveAuthToken(data.token);
+            if (data && data.id) {
+              fetch(`/profile/${data.id}`, {
+                method: 'get',
+                headers: {
+                  'Content-Type': 'application/json',
+                  authorization: data.token
+                }
+              })
+                .then(resp => resp.json())
+                .then(user => {
+                  if (user && user.username) {
+                    console.log(user)
+                    this.props.loadUser(user)
+                    this.props.onRouteChange('home')
+                  }
+                })
+            
           } else {
             this.setState({
               error: data
