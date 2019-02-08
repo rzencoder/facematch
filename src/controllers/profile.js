@@ -12,12 +12,11 @@ const handleGetProfile = (req, res, knex) => {
 }
 
 const handleProfileUpdate = (req, res, knex) => {
-    console.log('profile')
     const { id } = req.params;
     const { username, name, avatar, location } = req.body.formInput;
     knex('users')
         .where({ id: id })
-        .update({ username, name, avatar, location })
+        .update({ username, name, avatar, location }, ['id', 'username', 'name', 'location', 'avatar', 'joined', 'entries'])
         .then(user => {
             if (user.length) {
                 res.json(user[0]);
