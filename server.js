@@ -7,6 +7,8 @@ const register = require('./src/controllers/register');
 const signIn = require('./src/controllers/signIn');
 const image = require('./src/controllers/image');
 const profile = require('./src/controllers/profile');
+const auth = require('./src/middleware/authorization');
+
 const path = require('path');
 const app = express();
 require('dotenv').config();
@@ -14,6 +16,10 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.json());
 app.use(expressValidator());
 app.use(cors());
+const redis = require('redis');
+const client = redis.createClient({
+    host: 'localhost'
+});
 
 app.get('/ping', function (req, res) {
     return res.send('pong');
@@ -53,11 +59,12 @@ knex.select('*').from('users').then(data => console.log(data));
 //     res.send(database.users)
 // })
 
-app.post('/signin', (req, res) => signIn.signinAuth(req, res, knex, bcrypt));
+app.post('/signin', (req, res) => signIn.signinAuth(req, res, knex, bcrypt, client));
 app.post('/register', (req, res) => register.handleRegister(req, res, knex, bcrypt));
-app.get('/profile/:id', (req, res) => profile.handleGetProfile(req, res, knex));
-app.put('/image', (req, res) => image.handleImage(req, res, knex));
-app.post('/imageurl', (req, res) => image.handleApiCall(req, res));
+app.get('/profile/:id', auth.requireAuth(client), (req, res) => profile.handleGetProfile(req, res, knex));
+app.post('/profile/:id', auth.requireAuth(client), (req, res) => profile.handleProfileUpdate(req, res, knex));
+app.put('/image', auth.requireAuth(client), (req, res) => image.handleImage(req, res, knex));
+app.post('/imageurl', auth.requireAuth(client), (req, res) => image.handleApiCall(req, res));
 
 const PORT = 8080;
 

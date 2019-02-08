@@ -23,6 +23,7 @@
     "src"
   ],
   "exclude": [
-    "src/controllers"
+    "src/controllers",
+    "src/middleware",
     ]
 }

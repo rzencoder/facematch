@@ -11,6 +11,24 @@ const handleGetProfile = (req, res, knex) => {
     .catch(err => res.status(400).json('Error finding user'))
 }
 
+const handleProfileUpdate = (req, res, knex) => {
+    console.log('profile')
+    const { id } = req.params;
+    const { username, name, avatar, location } = req.body.formInput;
+    knex('users')
+        .where({ id: id })
+        .update({ username, name, avatar, location })
+        .then(user => {
+            if (user.length) {
+                res.json(user[0]);
+            } else {
+                res.status(400).json('Not Found')
+            }
+        })
+        .catch(err => res.status(400).json('Error finding user'))
+}
+
 module.exports = {
-    handleGetProfile: handleGetProfile
+    handleGetProfile: handleGetProfile,
+    handleProfileUpdate: handleProfileUpdate
 }

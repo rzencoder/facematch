@@ -4,11 +4,12 @@ import AvatarModal from '../AvatarModal/AvatarModal';
 
 interface ProfileProps {
     user: any,
-    updateProfile: any,
-    onRouteChange: any
+    onRouteChange: any,
+    loadUser: any
 }
 
 interface ProfileState {
+    id: string,
     name: string,
     username: string,
     location: string,
@@ -23,6 +24,7 @@ class Profile extends Component <ProfileProps, ProfileState> {
     constructor(props: ProfileProps) {
         super(props)
         this.state = {
+            id: this.props.user.id,
             username: this.props.user.username,
             name: this.props.user.name,
             location: this.props.user.location,
@@ -63,6 +65,27 @@ class Profile extends Component <ProfileProps, ProfileState> {
             avatar: a,
             modal: false
         })
+    }
+
+    updateProfile = (data: any) => {
+        const token:any= window.sessionStorage.getItem('token');
+        fetch(`/profile/${data.id}`, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: token
+            },
+            body: JSON.stringify({ formInput: data })
+        })
+            .then(resp => resp.json())
+            .then(user => {
+                if (user && user.username) {
+                    console.log(user)
+                    this.props.loadUser(user)
+                    this.props.onRouteChange('home')
+                }
+            })
+
     }
 
     onChange (event: any) {
@@ -113,7 +136,7 @@ class Profile extends Component <ProfileProps, ProfileState> {
                             <AvatarModal show={this.state.modal} handleClose={this.hideModal}>
                                 {avatars}
                             </AvatarModal>
-                        <button className="btn update-profile-btn" type="submit" onClick={() => this.props.updateProfile(this.state)}>Save</button>
+                        <button className="btn update-profile-btn" type="submit" onClick={() => this.updateProfile(this.state)}>Save</button>
                     </div>
                 </div>
                 </div>

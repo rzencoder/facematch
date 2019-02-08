@@ -100,24 +100,29 @@ class App extends Component {
 
   private calculateFaceLocation = (data:any) => {
     // Use api data to calculate face box data to display over image
-    const image = document.getElementById('imageInput') as HTMLCanvasElement;
-    const width = image.width;
-    const height = image.height;
-    const faceParameters = data.outputs[0].data.regions;
-    const boxes = faceParameters.map((face:any) => {
-      const faceData = face.region_info.bounding_box;
-      return {
-        leftCol: faceData.left_col * width,
-        topRow: faceData.top_row * height,
-        rightCol: width - (faceData.right_col * width),
-        bottomRow: height - (faceData.bottom_row * height),
-      };
-    })
-    return boxes;
+    if(data && data.outputs) {
+      const image = document.getElementById('imageInput') as HTMLCanvasElement;
+      const width = image.width;
+      const height = image.height;
+      const faceParameters = data.outputs[0].data.regions;
+      const boxes = faceParameters.map((face:any) => {
+        const faceData = face.region_info.bounding_box;
+        return {
+          leftCol: faceData.left_col * width,
+          topRow: faceData.top_row * height,
+          rightCol: width - (faceData.right_col * width),
+          bottomRow: height - (faceData.bottom_row * height),
+        };
+      })
+      return boxes;
+    }
+    return;
   }
 
   private displayFaceBoxes = (boxes: any) : void => {
-    this.setState({ boxes });
+    if(boxes) {
+      this.setState({ boxes });
+    }
   }
 
   private onInputChange = (event: any) : void => {
@@ -126,6 +131,7 @@ class App extends Component {
 
   private onSubmit = () => {
     const input = this.state.input;
+    const token:any = window.sessionStorage.getItem('token');
     this.setState({
       imageUrl: input,
     });
@@ -133,6 +139,7 @@ class App extends Component {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
+        authorization: token
       },
       body: JSON.stringify({
         input: input,
@@ -145,6 +152,7 @@ class App extends Component {
             method: 'put',
             headers: {
               'Content-Type': 'application/json',
+              authorization: token
             },
             body: JSON.stringify({
               id: this.state.user.id,
@@ -174,18 +182,6 @@ class App extends Component {
     }
   }
 
-  updateProfile = (data: any) => {
-    this.setState({
-      route: 'home',
-      user: {
-        name: data.name,
-        username: data.username,
-        location: data.location,
-        avatar: data.avatar
-      }
-    })
-  }
-
   render() { 
     const {
       isSignedIn, imageUrl, route, boxes,
@@ -206,7 +202,7 @@ class App extends Component {
           </div>
           :  
           route === 'profile' ? 
-          <Profile onRouteChange={this.onRouteChange} user={this.state.user} updateProfile={this.updateProfile}/> :
+          <Profile onRouteChange={this.onRouteChange} user={this.state.user} loadUser={this.loadUser}/> :
           <SignIn route={route} loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
         }
       </div>
