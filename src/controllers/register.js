@@ -1,4 +1,34 @@
-const handleRegister = (req, res, knex, bcrypt) => {
+const jwt = require('jsonwebtoken');
+
+const signToken = (username) => {
+    const jwtPayload = {
+        username
+    };
+    return jwt.sign(jwtPayload, process.env.JWTSECRET, {
+        expiresIn: '2 days'
+    });
+}
+
+const setToken = (id, token, client) => {
+    return Promise.resolve(client.set(token, id))
+}
+
+const createSession = (user, client) => {
+    const { username, id } = user;
+    const token = signToken(username);
+    return setToken(id, token, client)
+        .then(() => {
+            return {
+                success: 'true',
+                id: id,
+                token: token
+            }
+        })
+        .catch(() => console.log('err'))
+    
+}
+
+const handleRegister = (req, res, knex, bcrypt, client) => {
     const {name, username, password} = req.body;
     if(!name || !username || !password) {
         return res.status(400).json('incorrect form submission');
@@ -21,7 +51,12 @@ const handleRegister = (req, res, knex, bcrypt) => {
                 avatar: 1,
                 location: ''
             }).then(user => {
-                res.json(user[0]);
+                createSession(user[0], client)
+                .then(session => {
+                    console.log(session)
+                    res.json(session);
+                })
+                
             })
         })
         .then(trx.commit)

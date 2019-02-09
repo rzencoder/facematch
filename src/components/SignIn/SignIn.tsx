@@ -54,6 +54,7 @@ class SignIn extends React.Component<Props, State> {
           }),
         }).then(response => response.json())
         .then((data) => {
+          console.log(data)
             this.saveAuthToken(data.token);
             if (data && data.id) {
               fetch(`/profile/${data.id}`, {
