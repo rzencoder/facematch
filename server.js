@@ -8,6 +8,9 @@ const signIn = require('./src/controllers/signIn');
 const image = require('./src/controllers/image');
 const profile = require('./src/controllers/profile');
 const auth = require('./src/middleware/authorization');
+const signOut = require('./src/controllers/signOut');
+const morgan = require('morgan');
+
 
 const path = require('path');
 const app = express();
@@ -16,6 +19,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.json());
 app.use(expressValidator());
 app.use(cors());
+app.use(morgan('tiny'));
 const redis = require('redis');
 const client = redis.createClient({
     host: 'localhost'
@@ -65,6 +69,7 @@ app.get('/profile/:id', auth.requireAuth(client), (req, res) => profile.handleGe
 app.post('/profile/:id', auth.requireAuth(client), (req, res) => profile.handleProfileUpdate(req, res, knex));
 app.put('/image', auth.requireAuth(client), (req, res) => image.handleImage(req, res, knex));
 app.post('/imageurl', auth.requireAuth(client), (req, res) => image.handleApiCall(req, res));
+app.delete('/signout', auth.requireAuth(client), (req, res) => signOut.handleSignOut(req, res, client));
 
 const PORT = 8080;
 
