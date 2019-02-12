@@ -19,13 +19,13 @@ const signOut = require("./src/controllers/signOut");
 //CORS options
 const whitelist = ["htt", "http://example2.com"];
 const corsOptions = {
-    origin: function (origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
+  origin: function(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
     }
+  }
 };
 
 const app = express();
@@ -39,15 +39,15 @@ app.use(expressValidator());
 
 //Redis DB for session management
 const client = redis.createClient({
-    host: "localhost"
+  host: "localhost"
 });
 
 //Postgres DB
 const devdb = {
-    host: "127.0.0.1",
-    user: "postgres",
-    password: "testa",
-    database: "face-match"
+  host: "127.0.0.1",
+  user: "postgres",
+  password: "testa",
+  database: "face-match"
 };
 
 // const db = {
@@ -63,38 +63,38 @@ const devdb = {
 // }
 
 const knex = require("knex")({
-    client: "pg",
-    connection: devdb
+  client: "pg",
+  connection: devdb
 });
 
 //Routes
 
-app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "build", "index.html"));
+app.get("/", function(req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 app.post("/signin", (req, res) =>
-    signIn.signinAuth(req, res, knex, bcrypt, client)
+  signIn.signinAuth(req, res, knex, bcrypt, client)
 );
 app.post("/register", (req, res) =>
-    register.handleRegister(req, res, knex, bcrypt, client)
+  register.handleRegister(req, res, knex, bcrypt, client)
 );
 app.get("/profile/:id", auth.requireAuth(client), (req, res) =>
-    profile.handleGetProfile(req, res, knex)
+  profile.handleGetProfile(req, res, knex)
 );
 app.post("/profile/:id", auth.requireAuth(client), (req, res) =>
-    profile.handleProfileUpdate(req, res, knex)
+  profile.handleProfileUpdate(req, res, knex)
 );
 app.put("/image", auth.requireAuth(client), (req, res) =>
-    image.handleImage(req, res, knex)
+  image.handleImage(req, res, knex)
 );
 app.post("/imageurl", auth.requireAuth(client), (req, res) =>
-    image.handleApiCall(req, res)
+  image.handleApiCall(req, res)
 );
 app.delete("/signout", auth.requireAuth(client), (req, res) =>
-    signOut.handleSignOut(req, res, client)
+  signOut.handleSignOut(req, res, client)
 );
 
-app.listen(process.env.PORT, () => {
-    console.log(`app is running on port ${process.env.PORT}`);
+app.listen(8080, () => {
+  console.log(`app is running on port ${8080}`);
 });

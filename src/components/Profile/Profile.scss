@@ -14,6 +14,7 @@
     min-width: 350px;
     height: 80%;
     border-radius: 10px;
+
     @media (max-width: 400px) {
         min-width: 280px;
     }
@@ -46,32 +47,32 @@
 }
 
 .avatar1 {
-    background: url('./avatar1.png');
+    background: url('./img/avatar1.png');
     background-size: contain;
 }
 
 .avatar2 {
-    background: url('./avatar2.png');
+    background: url('./img/avatar2.png');
     background-size: contain;
 }
 
 .avatar3 {
-    background: url('./avatar3.png');
+    background: url('./img/avatar3.png');
     background-size: contain;
 }
 
 .avatar4 {
-    background: url('./avatar4.png');
+    background: url('./img/avatar4.png');
     background-size: contain;
 }
 
 .avatar5 {
-    background: url('./avatar5.png');
+    background: url('./img/avatar5.png');
     background-size: contain;
 }
 
 .avatar6 {
-    background: url('./avatar6.png');
+    background: url('./img/avatar6.png');
     background-size: contain;
 }
 
@@ -85,7 +86,8 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: center;  
+    align-items: center;
+
     input {
         width: 80%;
         border: none;
@@ -93,6 +95,7 @@
         background-color: inherit;
         cursor: default;
         transition: border 0.3s;
+
         &:focus {
             cursor: text;
             border: 1.5px solid $background-color;
@@ -125,6 +128,7 @@
     font-weight: 400;
     width: 40%;
     margin: 5px;
+
     &:hover {
         background: lighten($background-color, 10%);
     }
@@ -142,6 +146,7 @@
     position: absolute;
     right: 10px;
     top: 30%;
+
     &:hover {
         cursor: pointer;
     }

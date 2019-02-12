@@ -68,7 +68,10 @@ const handleRegister = (req, res, knex, bcrypt, client) => {
                     })
             })
             .then(trx.commit)
-            .catch(trx.rollback)
+            .catch((err) => {
+                res.status(400).json('User already exists');
+                return trx.rollback;
+            })
     })
 
 }
