@@ -4,7 +4,7 @@ const handleSignOut = (req, res, client) => {
     } = req.headers;
     client.del(authorization, (err, resp) => {
         if (err) {
-            res.json('Error')
+            res.json('Error signing out')
         } else {
             res.json('Sign out successful')
         }
