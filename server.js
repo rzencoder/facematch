@@ -19,7 +19,7 @@ const signOut = require("./src/controllers/signOut");
 //CORS options
 const whitelist = ["htt", "http://example2.com"];
 const corsOptions = {
-  origin: function(origin, callback) {
+  origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -69,7 +69,7 @@ const knex = require("knex")({
 
 //Routes
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 

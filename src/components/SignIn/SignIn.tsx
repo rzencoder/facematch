@@ -27,12 +27,6 @@ class SignIn extends React.Component<Props, State> {
     };
   }
 
-  componentDidMount() {
-    this.setState({
-      error: ""
-    });
-  }
-
   onNameChange = (event: any) => {
     this.setState({ name: event.target.value });
   };
@@ -59,17 +53,19 @@ class SignIn extends React.Component<Props, State> {
   }
 
   onSubmit = () => {
-    const { password, confirmPassword } = this.state;
-    if (password !== confirmPassword) {
-      return this.setState({
-        error: "Passwords must match"
-      });
-    }
-    if (!this.passwordValidation()) {
-      return this.setState({
-        error:
-          "Password must be at least 6 characters, Contain an upper and lower case character"
-      });
+    if (this.props.route === "register") {
+      const { password, confirmPassword } = this.state;
+      if (password !== confirmPassword) {
+        return this.setState({
+          error: "Passwords must match"
+        });
+      }
+      if (!this.passwordValidation()) {
+        return this.setState({
+          error:
+            "Password must be at least 6 characters, Contain an upper and lower case character"
+        });
+      }
     }
     this.sendInputData();
   };
