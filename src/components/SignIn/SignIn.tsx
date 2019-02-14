@@ -1,10 +1,12 @@
 import React from "react";
 import "./SignIn.scss";
+import { Redirect } from "react-router";
 
 interface Props {
   loadUser: any;
-  route: string;
-  onRouteChange: any;
+  match: any;
+  location: any;
+  isSignedIn: boolean;
 }
 
 interface State {
@@ -13,6 +15,7 @@ interface State {
   confirmPassword: string;
   name: string;
   error: string;
+  redirectToReferrer: boolean;
 }
 
 class SignIn extends React.Component<Props, State> {
@@ -23,7 +26,8 @@ class SignIn extends React.Component<Props, State> {
       password: "",
       confirmPassword: "",
       name: "",
-      error: ""
+      error: "",
+      redirectToReferrer: false
     };
   }
 
@@ -53,7 +57,7 @@ class SignIn extends React.Component<Props, State> {
   }
 
   onSubmit = () => {
-    if (this.props.route === "register") {
+    if (this.props.match.path === "/register") {
       const { password, confirmPassword } = this.state;
       if (password !== confirmPassword) {
         return this.setState({
@@ -71,7 +75,7 @@ class SignIn extends React.Component<Props, State> {
   };
 
   sendInputData() {
-    const url: string = "/" + this.props.route;
+    const url: string = this.props.match.path;
     fetch(url, {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -97,8 +101,11 @@ class SignIn extends React.Component<Props, State> {
             .then(user => {
               if (user && user.username) {
                 console.log(user);
+
+                this.setState({
+                  redirectToReferrer: true
+                });
                 this.props.loadUser(user);
-                this.props.onRouteChange("home");
               }
             });
         } else {
@@ -111,7 +118,14 @@ class SignIn extends React.Component<Props, State> {
 
   render() {
     const title: string =
-      this.props.route === "signin" ? "SIGN IN" : "REGISTER";
+      this.props.match.path === "/signin" ? "SIGN IN" : "REGISTER";
+    const { from } = this.props.location.state || { from: { pathname: "/" } };
+    const { redirectToReferrer } = this.state;
+    const { isSignedIn } = this.props;
+    if (redirectToReferrer || isSignedIn) {
+      console.log("ok");
+      return <Redirect to={from} />;
+    }
     return (
       <div className="form-container">
         <div className="form">
@@ -122,7 +136,7 @@ class SignIn extends React.Component<Props, State> {
             ) : (
               ""
             )}
-            {this.props.route === "register" ? (
+            {title === "REGISTER" ? (
               <div className="input-container">
                 <label htmlFor="name">Name</label>
                 <input
@@ -156,7 +170,7 @@ class SignIn extends React.Component<Props, State> {
                 required
               />
             </div>
-            {this.props.route === "register" ? (
+            {title === "REGISTER" ? (
               <div className="input-container">
                 <label htmlFor="confirmPassword">Confirm Password</label>
                 <input

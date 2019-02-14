@@ -1,23 +1,30 @@
-import React from 'react';
-import './Home.scss';
-import image from './home.png'
+import React from "react";
+import { Link } from "react-router-dom";
+import ImageForm from "../ImageForm/ImageForm";
+import FaceRecognition from "../FaceRecognition/FaceRecognition";
+import Rank from "../Rank/Rank";
 
 interface HomeProps {
-    onRouteChange: any
+  user: any;
+  onInputChange: any;
+  onSubmit: any;
+  boxes: any;
+  imageUrl: string;
 }
 
-const Home = ({ onRouteChange }: HomeProps) => (
-    <div>    
-        <h1 className="home-title">
-          Face<span>Match</span>
-        </h1>
-        <p className="tagline">Detect faces in your favorite images</p>
-        <img className="home-img" alt="logo of five stick figures" src={image}/>
-        <div className="home-btn-container">
-            <button className="btn" onClick={()=> onRouteChange('signin')}>Sign In</button>
-            <button className="btn" onClick={()=> onRouteChange('register')}>Register</button>
-        </div>
+const Home = (props: HomeProps) => (
+  <div>
+    <div>
+      <Rank name={props.user.name} entries={props.user.entries} />
+      <div className="face-search-container">
+        <ImageForm
+          onInputChange={props.onInputChange}
+          onSubmit={props.onSubmit}
+        />
+        <FaceRecognition boxes={props.boxes} imageUrl={props.imageUrl} />
+      </div>
     </div>
+  </div>
 );
 
 export default Home;
