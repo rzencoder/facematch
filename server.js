@@ -69,7 +69,7 @@ const knex = require("knex")({
 
 //Routes
 
-app.get("/", function (req, res) {
+app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
@@ -97,4 +97,5 @@ app.delete("/signout", auth.requireAuth(client), (req, res) =>
 
 app.listen(8080, () => {
   console.log(`app is running on port ${8080}`);
+  console.log(process.env.NODE_ENV)
 });
