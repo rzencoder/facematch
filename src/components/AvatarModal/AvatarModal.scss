@@ -17,6 +17,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 5px;
+
     @media(max-width: 800px) {
         width: 85%;
     }
@@ -27,14 +28,17 @@
     flex-wrap: wrap;
     justify-content: center;
     padding: 20px 10px;
-    > div {
+
+    >div {
         margin: 15px;
         transition: transform 0.5s;
+
         &:hover {
             cursor: pointer;
             transform: scale(1.1)
         }
-        @media(max-width: 600px){
+
+        @media(max-width: 600px) {
             width: 90px;
             height: 90px;
             margin: 10px;
@@ -42,18 +46,7 @@
     }
 }
 
-.fa-times {
-    position: absolute;
-    color: $secondary-font-color;
-    right: 5px;
-    top: 5px;
-    font-size: 26px;
-    transition: color 0.3s;
-    &:hover {
-        color: lighten($secondary-font-color, 10%);        
-        cursor: pointer;
-    }
-}
+
 
 .display-block {
     display: block;

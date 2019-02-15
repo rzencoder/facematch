@@ -17,7 +17,9 @@ const handleApiCall = (req, res) => {
 };
 
 const handleImage = (req, res, knex) => {
-  const { id } = req.body;
+  const {
+    id
+  } = req.body;
   knex("users")
     .where("id", "=", id)
     .increment("entries", 1)

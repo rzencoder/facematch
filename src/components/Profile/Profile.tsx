@@ -117,7 +117,7 @@ class Profile extends Component<ProfileProps, ProfileState> {
           <div className="profile-top">
             <div className={"avatar avatar" + avatar} />
             <Link to="/">
-              <div className="fa fa-times profile-close" />
+              <div className="close-btn">&times;</div>
             </Link>
           </div>
           <div className="profile-bottom">

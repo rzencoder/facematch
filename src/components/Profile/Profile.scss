@@ -20,9 +20,19 @@
     }
 }
 
-.profile-close {
+.close-btn {
     position: absolute;
-    right: 0px;
+    color: $secondary-font-color;
+    right: 5px;
+    top: 0px;
+    font-size: 40px;
+    transition: color 0.3s;
+    font-weight: 700;
+
+    &:hover {
+        color: lighten($secondary-font-color, 10%);
+        cursor: pointer;
+    }
 }
 
 .profile-item {
@@ -139,15 +149,4 @@
     padding: 10px 20px;
     width: 50%;
     margin: 5px 5px 15px;
-}
-
-.fa-edit {
-    color: #bbb;
-    position: absolute;
-    right: 10px;
-    top: 30%;
-
-    &:hover {
-        cursor: pointer;
-    }
 }

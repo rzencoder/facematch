@@ -1,15 +1,10 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import ImageForm from "../components/ImageForm/ImageForm";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Navigation from "../components/Navigation/Navigation";
-import FaceRecognition from "../components/FaceRecognition/FaceRecognition";
-import Rank from "../components/Rank/Rank";
 import SignIn from "../components/SignIn/SignIn";
 import Home from "../components/Home/Home";
 import Landing from "../components/Landing/Landing";
 import Profile from "../components/Profile/Profile";
-
-interface AppProps {}
 
 const initialState = {
   isSignedIn: false,
@@ -23,43 +18,29 @@ const initialState = {
   location: ""
 };
 
-interface AppState {
-  isSignedIn: boolean;
-  message: string;
-  id: number;
-  name: string;
-  username: string;
-  entries: number;
-  joined: string;
-  avatar: string;
-  location: string;
-}
 type State = Readonly<typeof initialState>;
 
 class App extends Component {
   readonly state: State = initialState;
 
-  private loadUser = (data: any): void => {
-    this.setState(
-      {
-        isSignedIn: true,
-        id: data.id,
-        username: data.username,
-        name: data.name,
-        entries: data.entries,
-        joined: data.joined,
-        avatar: data.avatar,
-        location: data.location
-      },
-      () => console.log(this.state)
-    );
+  loadUser = (data: any): void => {
+    this.setState({
+      isSignedIn: true,
+      id: data.id,
+      username: data.username,
+      name: data.name,
+      entries: data.entries,
+      joined: data.joined,
+      avatar: data.avatar,
+      location: data.location
+    });
   };
 
-  updateEntries = (data: number) => {
+  updateEntries = (data: number): void => {
     this.setState({ entries: data });
   };
 
-  handleSignOut = () => {
+  handleSignOut = (): void => {
     const token = window.sessionStorage.getItem("token");
     window.sessionStorage.removeItem("token");
     if (token) {
@@ -72,7 +53,6 @@ class App extends Component {
       })
         .then(resp => resp.json())
         .then(data => {
-          console.log(this.state);
           this.setState({
             isSignedIn: false
           });
@@ -103,7 +83,6 @@ class App extends Component {
               .then(resp => resp.json())
               .then(user => {
                 if (user && user.username) {
-                  console.log(user);
                   this.loadUser(user);
                 }
               });
@@ -125,6 +104,7 @@ class App extends Component {
       joined
     } = this.state;
     const homeRoute = isSignedIn ? Image : Home;
+
     return (
       <Router>
         <div className="App">
