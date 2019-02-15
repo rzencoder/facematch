@@ -5,18 +5,23 @@ import { Link } from "react-router-dom";
 import AvatarModal from "../AvatarModal/AvatarModal";
 
 interface ProfileProps {
-  user: any;
+  name: string;
+  username: string;
+  id: number;
+  joined: any;
+  entries: number;
+  city: string;
+  avatar: string;
   loadUser: any;
   isSignedIn: boolean;
   location: any;
+  history: any;
 }
 
 interface ProfileState {
-  id: string;
   name: string;
   username: string;
-  location: string;
-  searches: number;
+  city: string;
   avatar: string;
   modal: boolean;
 }
@@ -26,12 +31,10 @@ class Profile extends Component<ProfileProps, ProfileState> {
   constructor(props: ProfileProps) {
     super(props);
     this.state = {
-      id: this.props.user.id,
-      username: this.props.user.username,
-      name: this.props.user.name,
-      location: this.props.user.location,
-      searches: this.props.user.entries,
-      avatar: this.props.user.avatar,
+      username: this.props.username,
+      name: this.props.name,
+      city: this.props.city,
+      avatar: this.props.avatar,
       modal: false
     };
     this.textInput = React.createRef();
@@ -66,7 +69,7 @@ class Profile extends Component<ProfileProps, ProfileState> {
 
   updateProfile = (data: any) => {
     const token: any = window.sessionStorage.getItem("token");
-    fetch(`/profile/${data.id}`, {
+    fetch(`/profile/${this.props.id}`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -79,6 +82,7 @@ class Profile extends Component<ProfileProps, ProfileState> {
         if (user && user.username) {
           console.log(user);
           this.props.loadUser(user);
+          this.props.history.push("/");
         }
       });
   };
@@ -93,7 +97,7 @@ class Profile extends Component<ProfileProps, ProfileState> {
   }
 
   render() {
-    const { avatar, searches, name, username, location } = this.state;
+    const { avatar, name, username, city } = this.state;
     const avatars = [1, 1, 1, 1, 1, 1].map((avatar: any, i: number) => {
       return (
         <div
@@ -151,12 +155,12 @@ class Profile extends Component<ProfileProps, ProfileState> {
                   onChange={event => {
                     this.onChange(event);
                   }}
-                  value={location}
+                  value={city}
                 />
                 <div onClick={this.focusTextInput} className="fa fa-edit" />
               </div>
               <div className="profile-item">
-                <div>Searches: {searches}</div>
+                <div>Searches: {this.props.entries}</div>
               </div>
               <button className="btn avatar-btn" onClick={this.showModal}>
                 Choose Avatar

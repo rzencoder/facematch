@@ -12,35 +12,27 @@ import Profile from "../components/Profile/Profile";
 interface AppProps {}
 
 const initialState = {
-  input: "",
-  imageUrl: "",
-  boxes: [],
   isSignedIn: false,
-  errorMessage: "",
-  user: {
-    id: 0,
-    name: "",
-    username: "",
-    entries: 0,
-    joined: new Date(),
-    avatar: "1",
-    location: " "
-  }
+  message: "",
+  id: 0,
+  name: "",
+  username: "",
+  entries: 0,
+  joined: new Date(),
+  avatar: "1",
+  location: ""
 };
 
 interface AppState {
-  input: string;
-  imageUrl: string;
-  boxes: any;
   isSignedIn: boolean;
-  errorMessage: string;
-  user: {
-    id: number;
-    name: string;
-    username: string;
-    entries: number;
-    joined: string;
-  };
+  message: string;
+  id: number;
+  name: string;
+  username: string;
+  entries: number;
+  joined: string;
+  avatar: string;
+  location: string;
 }
 type State = Readonly<typeof initialState>;
 
@@ -48,9 +40,9 @@ class App extends Component {
   readonly state: State = initialState;
 
   private loadUser = (data: any): void => {
-    this.setState({
-      isSignedIn: true,
-      user: {
+    this.setState(
+      {
+        isSignedIn: true,
         id: data.id,
         username: data.username,
         name: data.name,
@@ -58,8 +50,13 @@ class App extends Component {
         joined: data.joined,
         avatar: data.avatar,
         location: data.location
-      }
-    });
+      },
+      () => console.log(this.state)
+    );
+  };
+
+  updateEntries = (data: number) => {
+    this.setState({ entries: data });
   };
 
   handleSignOut = () => {
@@ -116,83 +113,18 @@ class App extends Component {
     }
   }
 
-  private calculateFaceLocation = (data: any) => {
-    // Use api data to calculate face box data to display over image
-    if (data && data.outputs) {
-      const image = document.getElementById("imageInput") as HTMLCanvasElement;
-      const width = image.width;
-      const height = image.height;
-      const faceParameters = data.outputs[0].data.regions;
-      const boxes = faceParameters.map((face: any) => {
-        const faceData = face.region_info.bounding_box;
-        return {
-          leftCol: faceData.left_col * width,
-          topRow: faceData.top_row * height,
-          rightCol: width - faceData.right_col * width,
-          bottomRow: height - faceData.bottom_row * height
-        };
-      });
-      return boxes;
-    }
-    return;
-  };
-
-  private displayFaceBoxes = (boxes: any): void => {
-    if (boxes) {
-      this.setState({ boxes });
-    }
-  };
-
-  private onInputChange = (event: any): void => {
-    this.setState({ input: event.target.value });
-  };
-
-  private onSubmit = () => {
-    const input = this.state.input;
-    const token: any = window.sessionStorage.getItem("token");
-    this.setState({
-      imageUrl: input
-    });
-    fetch("/imageurl", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: token
-      },
-      body: JSON.stringify({
-        input: input
-      })
-    })
-      .then(response => response.json())
-      .then(response => {
-        if (response) {
-          fetch("/image", {
-            method: "put",
-            headers: {
-              "Content-Type": "application/json",
-              authorization: token
-            },
-            body: JSON.stringify({
-              id: this.state.user.id
-            })
-          })
-            .then(res => res.json())
-            .then(count => {
-              this.setState(Object.assign(this.state.user, { entries: count }));
-            })
-            .catch(err =>
-              this.setState({ errorMessage: "Error loading User Data" })
-            );
-        }
-        this.displayFaceBoxes(this.calculateFaceLocation(response));
-      })
-      .catch(err => this.setState({ errorMessage: "Error loading API" }));
-  };
-
   render() {
-    const { isSignedIn, imageUrl, boxes } = this.state;
+    const {
+      isSignedIn,
+      id,
+      name,
+      username,
+      location,
+      avatar,
+      entries,
+      joined
+    } = this.state;
     const homeRoute = isSignedIn ? Image : Home;
-    console.log(isSignedIn);
     return (
       <Router>
         <div className="App">
@@ -210,11 +142,10 @@ class App extends Component {
               render={props => (
                 <Home
                   {...props}
-                  user={this.state.user}
-                  onInputChange={this.onInputChange}
-                  onSubmit={this.onSubmit}
-                  boxes={boxes}
-                  imageUrl={imageUrl}
+                  name={name}
+                  id={id}
+                  entries={entries}
+                  updateEntries={this.updateEntries}
                 />
               )}
             />
@@ -244,7 +175,13 @@ class App extends Component {
             render={props => (
               <Profile
                 {...props}
-                user={this.state.user}
+                name={name}
+                username={username}
+                id={id}
+                city={location}
+                entries={entries}
+                avatar={avatar}
+                joined={joined}
                 isSignedIn={isSignedIn}
                 loadUser={this.loadUser}
               />
