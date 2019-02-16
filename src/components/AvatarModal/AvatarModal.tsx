@@ -12,7 +12,7 @@ const AvatarModal = ({ show, handleClose, children }: ModalProps) => {
   return (
     <div className={modalClass}>
       <section className="modal-main">
-        <div className="close-btn" onClick={handleClose} />
+        <div className="close-btn" onClick={() => handleClose("avatarModal")} />
         <div className="modal-container">{children}</div>
       </section>
     </div>

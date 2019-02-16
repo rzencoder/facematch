@@ -3,6 +3,26 @@ import "./Profile.scss";
 import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import AvatarModal from "../AvatarModal/AvatarModal";
+import DeleteModal from "../DeleteModal/DeleteModal";
+
+const convertDate = (date: any) => {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+  const splitDate = date.split("-");
+  return months[Number(splitDate[1]) - 1] + " " + splitDate[0];
+};
 
 interface ProfileProps {
   name: string;
@@ -14,6 +34,7 @@ interface ProfileProps {
   avatar: string;
   loadUser: any;
   isSignedIn: boolean;
+  handleSignOut: any;
   location: any;
   history: any;
 }
@@ -23,11 +44,11 @@ interface ProfileState {
   username: string;
   city: string;
   avatar: string;
-  modal: boolean;
+  avatarModal: boolean;
+  deleteModal: boolean;
 }
 
 class Profile extends Component<ProfileProps, ProfileState> {
-  private textInput: React.RefObject<HTMLInputElement>;
   constructor(props: ProfileProps) {
     super(props);
     this.state = {
@@ -35,35 +56,30 @@ class Profile extends Component<ProfileProps, ProfileState> {
       name: this.props.name,
       city: this.props.city,
       avatar: this.props.avatar,
-      modal: false
+      avatarModal: false,
+      deleteModal: false
     };
-    this.textInput = React.createRef();
   }
 
-  setTextInputRef = (element: any) => {
-    this.textInput = element;
-    console.log(element);
-    console.log(this.textInput);
+  showModal = (modal: string) => {
+    this.setState(prevState => ({
+      ...prevState,
+      [modal]: true // No error here, but can't ensure that key is in StateKeys
+    }));
   };
 
-  focusTextInput = () => {
-    // Focus the text input using the raw DOM API
-    if (this.textInput) this.textInput;
-  };
-
-  showModal = () => {
-    this.setState({ modal: true });
-  };
-
-  hideModal = () => {
-    this.setState({ modal: false });
+  hideModal = (modal: string) => {
+    console.log("hiding");
+    this.setState(prevState => ({
+      ...prevState,
+      [modal]: false // No error here, but can't ensure that key is in StateKeys
+    }));
   };
 
   updateAvatar(avatar: number) {
-    const a = avatar.toString();
     this.setState({
-      avatar: a,
-      modal: false
+      avatar: avatar.toString(),
+      avatarModal: false
     });
   }
 
@@ -96,6 +112,17 @@ class Profile extends Component<ProfileProps, ProfileState> {
     }));
   }
 
+  handleDeleteProfile = () => {
+    this.setState(
+      {
+        deleteModal: false
+      },
+      () => {
+        this.props.handleSignOut();
+      }
+    );
+  };
+
   render() {
     const { avatar, name, username, city } = this.state;
     const avatars = [1, 1, 1, 1, 1, 1].map((avatar: any, i: number) => {
@@ -119,53 +146,48 @@ class Profile extends Component<ProfileProps, ProfileState> {
             <Link to="/">
               <div className="close-btn">&times;</div>
             </Link>
+            <div className="profile-item-username">{username}</div>
+          </div>
+          <div className="profile-middle">
+            <div>{name}</div>
+            <div>{city}</div>
+            <div>Joined: {convertDate(this.props.joined)}</div>
           </div>
           <div className="profile-bottom">
             <div className="profile-details">
+              <h3 className="edit-profile-heading">Edit Profile</h3>
               <div className="profile-item">
-                <input
-                  className="profile-item-username"
-                  name="username"
-                  ref={this.setTextInputRef}
-                  onChange={event => {
-                    this.onChange(event);
-                  }}
-                  value={username}
-                />
-                <div onClick={this.focusTextInput} className="fa fa-edit" />
-              </div>
-              <div className="profile-item">
+                <label htmlFor="name">Name</label>
                 <input
                   className="profile-item-name"
                   name="name"
-                  ref={this.setTextInputRef}
                   onChange={event => {
                     this.onChange(event);
                   }}
                   value={name}
                 />
-                <div onClick={this.focusTextInput} className="fa fa-edit" />
               </div>
               <div className="profile-item">
+                <label htmlFor="city">Location</label>
                 <input
                   className="profile-item-location"
-                  name="location"
-                  placeholder="Add Location"
-                  ref={this.setTextInputRef}
+                  name="city"
                   onChange={event => {
                     this.onChange(event);
                   }}
                   value={city}
                 />
-                <div onClick={this.focusTextInput} className="fa fa-edit" />
               </div>
-              <div className="profile-item">
-                <div>Searches: {this.props.entries}</div>
-              </div>
-              <button className="btn avatar-btn" onClick={this.showModal}>
+              <button
+                className="btn avatar-btn"
+                onClick={() => this.showModal("avatarModal")}
+              >
                 Choose Avatar
               </button>
-              <AvatarModal show={this.state.modal} handleClose={this.hideModal}>
+              <AvatarModal
+                show={this.state.avatarModal}
+                handleClose={this.hideModal}
+              >
                 {avatars}
               </AvatarModal>
               <button
@@ -175,6 +197,18 @@ class Profile extends Component<ProfileProps, ProfileState> {
               >
                 Save
               </button>
+              <button
+                onClick={() => {
+                  this.showModal("deleteModal");
+                }}
+              >
+                Delete Profile
+              </button>
+              <DeleteModal
+                show={this.state.deleteModal}
+                handleClose={this.hideModal}
+                handleDeleteProfile={this.handleDeleteProfile}
+              />
             </div>
           </div>
         </div>

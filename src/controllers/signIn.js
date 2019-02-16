@@ -5,6 +5,7 @@ const handleSignIn = (req, res, knex, bcrypt) => {
         username,
         password
     } = req.body;
+
     if (!username || !password) {
         return Promise.reject('Incorrect form submission');
     }
@@ -15,7 +16,10 @@ const handleSignIn = (req, res, knex, bcrypt) => {
             if (isValid) {
                 return knex.select('*').from('users')
                     .where('username', '=', username)
-                    .then(user => (user[0]))
+                    .then(user => {
+                        console.log(user[0])
+                        return user[0]
+                    })
                     .catch(err => Promise.reject('Unable to find user'))
             }
             Promise.reject('Incorrect username and/or password')
@@ -75,6 +79,7 @@ const signinAuth = (req, res, knex, bcrypt, client) => {
     return authorization ? getAuthToken(req, res, client) :
         handleSignIn(req, res, knex, bcrypt)
         .then(data => {
+
             return data.username && data.id ? createSession(data, client) : Promise.reject(data);
         })
         .then(session => {

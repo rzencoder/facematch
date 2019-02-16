@@ -109,9 +109,10 @@ class SignIn extends React.Component<Props, State> {
               }
             });
         } else {
-          this.setState({
-            error: data
-          });
+          console.log(data);
+          // this.setState({
+          //   error: data
+          // });
         }
       });
   }

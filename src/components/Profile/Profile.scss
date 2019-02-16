@@ -1,5 +1,4 @@
-@import '../../partials/variables';
-
+@import "../../partials/variables";
 .profile {
     display: flex;
     align-items: center;
@@ -12,9 +11,8 @@
     background: linear-gradient(145deg, rgb(221, 65, 18), rgb(241, 118, 18));
     width: 30%;
     min-width: 350px;
-    height: 80%;
+    height: 95%;
     border-radius: 10px;
-
     @media (max-width: 400px) {
         min-width: 280px;
     }
@@ -28,24 +26,17 @@
     font-size: 40px;
     transition: color 0.3s;
     font-weight: 700;
-
     &:hover {
         color: lighten($secondary-font-color, 10%);
         cursor: pointer;
     }
 }
 
-.profile-item {
-    display: flex;
-    justify-content: center;
-    position: relative;
-    width: 100%;
-}
-
 .profile-top {
     position: relative;
     height: 50%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -54,42 +45,61 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
+    margin: 10px;
 }
 
 .avatar1 {
-    background: url('./img/avatar1.png');
+    background: url("./img/avatar1.png");
     background-size: contain;
 }
 
 .avatar2 {
-    background: url('./img/avatar2.png');
+    background: url("./img/avatar2.png");
     background-size: contain;
 }
 
 .avatar3 {
-    background: url('./img/avatar3.png');
+    background: url("./img/avatar3.png");
     background-size: contain;
 }
 
 .avatar4 {
-    background: url('./img/avatar4.png');
+    background: url("./img/avatar4.png");
     background-size: contain;
 }
 
 .avatar5 {
-    background: url('./img/avatar5.png');
+    background: url("./img/avatar5.png");
     background-size: contain;
 }
 
 .avatar6 {
-    background: url('./img/avatar6.png');
+    background: url("./img/avatar6.png");
     background-size: contain;
 }
 
+.profile-middle {
+    background: #ddd;
+    padding: 5px;
+    >div {
+        height: 15px;
+        padding: 5px;
+    }
+}
 
 .profile-bottom {
     background: rgb(253, 255, 245);
     border-radius: 0 0 10px 10px;
+}
+
+.profile-item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 90%;
+    justify-content: space-between;
+    font-size: 14px;
+    padding: 5px 0;
 }
 
 .profile-details {
@@ -97,15 +107,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
     input {
-        width: 80%;
-        border: none;
+        width: 70%;
+        font-size: 14px;
+        border: 1px solid #bbb;
         text-align: center;
         background-color: inherit;
         cursor: default;
         transition: border 0.3s;
-
         &:focus {
             cursor: text;
             border: 1.5px solid $background-color;
@@ -115,6 +124,7 @@
 }
 
 .profile-item-username {
+    color: $base-font-color;
     font-size: 30px;
     font-weight: 700;
     padding: 10px;
@@ -138,7 +148,6 @@
     font-weight: 400;
     width: 40%;
     margin: 5px;
-
     &:hover {
         background: lighten($background-color, 10%);
     }
@@ -149,4 +158,9 @@
     padding: 10px 20px;
     width: 50%;
     margin: 5px 5px 15px;
+}
+
+.edit-profile-heading {
+    padding: 5px;
+    margin: 0;
 }

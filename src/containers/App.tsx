@@ -24,6 +24,7 @@ class App extends Component {
   readonly state: State = initialState;
 
   loadUser = (data: any): void => {
+    console.log("oading");
     this.setState({
       isSignedIn: true,
       id: data.id,
@@ -164,6 +165,7 @@ class App extends Component {
                 joined={joined}
                 isSignedIn={isSignedIn}
                 loadUser={this.loadUser}
+                handleSignOut={this.handleSignOut}
               />
             )}
           />
