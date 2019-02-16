@@ -46,7 +46,27 @@
     }
 }
 
+.delete-confirm-message {
+    padding: 20px;
+    font-size: 20px;
+}
 
+.delete-cancel-btn {
+    background: $background-color;
+
+    &:hover {
+        background: lighten($background-color, 10%);
+    }
+}
+
+.delete-confirm-btn {
+    background: #c51c1c;
+
+    &:hover {
+        background: lighten(#c51c1c, 10%);
+    }
+
+}
 
 .display-block {
     display: block;

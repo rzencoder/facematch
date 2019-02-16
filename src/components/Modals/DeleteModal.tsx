@@ -1,5 +1,5 @@
 import React from "react";
-import "./DeleteModal.scss";
+import "./Modal.scss";
 
 interface ModalProps {
   show: boolean;
@@ -16,16 +16,21 @@ const DeleteModal = ({
   return (
     <div className={modalClass}>
       <section className="modal-main">
-        <div>Are you sure you want to delete your profile</div>
-        <div onClick={handleDeleteProfile} className="modal-container">
-          Delete
+        <div className="delete-confirm-message">
+          Are you sure you want to delete your profile
         </div>
-        <div
+        <button
+          onClick={handleDeleteProfile}
+          className="btn delete-confirm-btn"
+        >
+          Delete
+        </button>
+        <button
           onClick={() => handleClose("deleteModal")}
-          className="modal-container"
+          className="btn delete-cancel-btn"
         >
           Cancel
-        </div>
+        </button>
       </section>
     </div>
   );

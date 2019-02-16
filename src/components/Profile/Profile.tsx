@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import "./Profile.scss";
 import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
-import AvatarModal from "../AvatarModal/AvatarModal";
-import DeleteModal from "../DeleteModal/DeleteModal";
+import AvatarModal from "../Modals/AvatarModal";
+import DeleteModal from "../Modals/DeleteModal";
 
 const convertDate = (date: any) => {
   const months = [
@@ -118,7 +118,20 @@ class Profile extends Component<ProfileProps, ProfileState> {
         deleteModal: false
       },
       () => {
-        this.props.handleSignOut();
+        const token: any = window.sessionStorage.getItem("token");
+        fetch(`/delete_profile/${this.props.id}`, {
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: token
+          },
+          body: JSON.stringify({ username: this.props.username })
+        })
+          .then(resp => resp.json())
+          .then(data => {
+            console.log(data);
+            this.props.handleSignOut();
+          });
       }
     );
   };
@@ -198,6 +211,7 @@ class Profile extends Component<ProfileProps, ProfileState> {
                 Save
               </button>
               <button
+                className="btn delete-btn"
                 onClick={() => {
                   this.showModal("deleteModal");
                 }}

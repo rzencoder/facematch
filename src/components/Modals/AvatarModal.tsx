@@ -1,5 +1,5 @@
 import React from "react";
-import "./AvatarModal.scss";
+import "./Modal.scss";
 
 interface ModalProps {
   show: boolean;

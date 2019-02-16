@@ -85,6 +85,9 @@ app.get("/profile/:id", auth.requireAuth(client), (req, res) =>
 app.post("/profile/:id", auth.requireAuth(client), (req, res) =>
   profile.handleProfileUpdate(req, res, knex)
 );
+app.delete("/delete_profile/:id", auth.requireAuth(client), (req, res) =>
+  profile.handleDeleteProfile(req, res, knex)
+);
 app.put("/image", auth.requireAuth(client), (req, res) =>
   image.handleImage(req, res, knex)
 );

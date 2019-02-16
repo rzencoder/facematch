@@ -17,6 +17,30 @@ const handleGetProfile = (req, res, knex) => {
         .catch(err => res.status(400).json('Error finding user'))
 }
 
+const handleDeleteProfile = (req, res, knex) => {
+    const {
+        username
+    } = req.body;
+    knex('login')
+        .where({
+            'username': username
+        })
+        .del()
+        .then(() => {
+            knex('users')
+                .where({
+                    'username': username
+                })
+                .del()
+                .then(() => {
+                    res.status(200).json('Delete Successful')
+                })
+                .catch(err => res.status(400).json('Error deleting profile'))
+        })
+        .catch(err => res.status(400).json('Error deleting profile'))
+
+}
+
 const handleProfileUpdate = (req, res, knex) => {
     const {
         id
@@ -49,5 +73,6 @@ const handleProfileUpdate = (req, res, knex) => {
 
 module.exports = {
     handleGetProfile: handleGetProfile,
-    handleProfileUpdate: handleProfileUpdate
+    handleProfileUpdate: handleProfileUpdate,
+    handleDeleteProfile: handleDeleteProfile
 }
