@@ -41,10 +41,12 @@ app.use(expressValidator());
 let client;
 
 if (process.env.NODE_ENV === "production") {
+  console.log('client prod')
   client = redis.createClient(process.env.REDISCLOUD_URL, {
     no_ready_check: true
   });
 } else {
+  console.log('client dev')
   redis.createClient({
     host: process.env.REDIS_HOST
   });
