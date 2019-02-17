@@ -38,10 +38,17 @@ app.use(bodyParser.json());
 app.use(expressValidator());
 
 //Redis DB for session management
-const client = redis.createClient({
-  host: process.env.REDIS_HOST,
-  password: process.env.REDIS_PASSWORD
-});
+let client;
+
+if (process.env.NODE_ENV === "production") {
+  client = redis.createClient(process.env.REDISCLOUD_URL, {
+    no_ready_check: true
+  });
+} else {
+  redis.createClient({
+    host: process.env.REDIS_HOST
+  });
+}
 
 //Postgres DB
 
