@@ -107,12 +107,12 @@ app.delete("/signout", auth.requireAuth(client), (req, res) =>
 );
 
 //production mode
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'build')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build/static/index.html'));
-  })
-}
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static(path.join(__dirname, 'build')));
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'build/static/index.html'));
+//   })
+// }
 
 app.listen(process.env.PORT || 8080, () => {
   console.log(`app is running on port ${process.env.PORT}`);
