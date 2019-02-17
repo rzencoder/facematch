@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import ImageForm from "../ImageForm/ImageForm";
-import FaceRecognition from "../FaceRecognition/FaceRecognition";
-import Rank from "../Rank/Rank";
+import "./Home.scss";
+import ImageForm from "../../components/ImageForm/ImageForm";
+import FaceRecognition from "../../components/FaceRecognition/FaceRecognition";
+import Rank from "../../components/Rank/Rank";
 
 interface HomeProps {
   name: string;
@@ -29,7 +29,7 @@ class Home extends Component<HomeProps, HomeState> {
     };
   }
 
-  private calculateFaceLocation = (data: any) => {
+  calculateFaceLocation = (data: any) => {
     // Use api data to calculate face box data to display over image
     if (data && data.outputs) {
       const image = document.getElementById("imageInput") as HTMLCanvasElement;
@@ -50,18 +50,18 @@ class Home extends Component<HomeProps, HomeState> {
     return;
   };
 
-  private displayFaceBoxes = (boxes: any): void => {
+  displayFaceBoxes = (boxes: any): void => {
     if (boxes) {
       this.setState({ boxes });
     }
   };
 
-  private onInputChange = (event: any): void => {
+  onInputChange = (event: any): void => {
     this.setState({ input: event.target.value });
   };
 
-  private onSubmit = () => {
-    const input = this.state.input;
+  onSubmit = () => {
+    const { input } = this.state;
     const token: any = window.sessionStorage.getItem("token");
     this.setState({
       imageUrl: input
@@ -104,10 +104,11 @@ class Home extends Component<HomeProps, HomeState> {
 
   render() {
     const { boxes, imageUrl } = this.state;
+    const { name, entries } = this.props;
     return (
       <div>
         <div>
-          <Rank name={this.props.name} entries={this.props.entries} />
+          <Rank name={name} entries={entries} />
           <div className="face-search-container">
             <ImageForm
               onInputChange={this.onInputChange}

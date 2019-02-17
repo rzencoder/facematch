@@ -58,7 +58,12 @@ class SignIn extends React.Component<Props, State> {
 
   onSubmit = () => {
     if (this.props.match.path === "/register") {
-      const { password, confirmPassword } = this.state;
+      const { password, confirmPassword, name, username } = this.state;
+      if (!password || !confirmPassword || !name || !username) {
+        return this.setState({
+          error: "All fields required"
+        });
+      }
       if (password !== confirmPassword) {
         return this.setState({
           error: "Passwords must match"
@@ -100,8 +105,6 @@ class SignIn extends React.Component<Props, State> {
             .then(resp => resp.json())
             .then(user => {
               if (user && user.username) {
-                console.log(user);
-
                 this.setState({
                   redirectToReferrer: true
                 });
@@ -110,9 +113,9 @@ class SignIn extends React.Component<Props, State> {
             });
         } else {
           console.log(data);
-          // this.setState({
-          //   error: data
-          // });
+          this.setState({
+            error: data
+          });
         }
       });
   }

@@ -43,28 +43,26 @@ const client = redis.createClient({
 });
 
 //Postgres DB
-const devdb = {
-  host: "127.0.0.1",
-  user: "postgres",
-  password: "testa",
-  database: "face-match"
-};
 
-// const db = {
-//     host: process.env.HOST,
-//     user: process.env.USER,
-//     password: process.env.PASSWORD,
-//     database: process.env.DATABASE
-// }
+let pgDatabase;
 
-// const prodDB = {
-//     connectionString: process.env.DATABASE_URL,
-//     ssl: true
-// }
+if (process.env.NODE_ENV === "production") {
+  pgDatabase = {
+    connectionString: process.env.DATABASE_URL,
+    ssl: true
+  }
+} else {
+  pgDatabase = {
+    host: process.env.PG_HOST,
+    user: process.env.PG_USER,
+    password: process.env.PG_PASSWORD,
+    database: process.env.PG_DATABASE
+  }
+}
 
 const knex = require("knex")({
   client: "pg",
-  connection: devdb
+  connection: pgDatabase
 });
 
 //Routes
@@ -97,6 +95,14 @@ app.post("/imageurl", auth.requireAuth(client), (req, res) =>
 app.delete("/signout", auth.requireAuth(client), (req, res) =>
   signOut.handleSignOut(req, res, client)
 );
+
+//production mode
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build/index.html'));
+  })
+}
 
 app.listen(8080, () => {
   console.log(`app is running on port ${8080}`);

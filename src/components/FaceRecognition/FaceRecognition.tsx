@@ -7,6 +7,7 @@ interface FaceProps {
 }
 
 const FaceRecognition = ({ imageUrl, boxes }: FaceProps) => {
+  // Resize image based on screen size
   let width = window.innerWidth < 400 ? "280px" : "500px";
   const faceBoxes = boxes.map((box: any, i: number) => {
     return (
