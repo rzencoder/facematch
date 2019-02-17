@@ -39,7 +39,8 @@ app.use(expressValidator());
 
 //Redis DB for session management
 const client = redis.createClient({
-  host: process.env.REDIS_HOST
+  host: process.env.REDIS_HOST,
+  password: process.env.REDIS_PASSWORD
 });
 
 //Postgres DB
