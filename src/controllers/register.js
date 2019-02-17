@@ -58,6 +58,7 @@ const handleRegister = (req, res, knex, bcrypt, client) => {
                         avatar: 1,
                         location: ''
                     }).then(user => {
+                        console.log(user)
                         createSession(user[0], client)
                             .then(session => {
                                 res.json(session);
@@ -69,6 +70,7 @@ const handleRegister = (req, res, knex, bcrypt, client) => {
             })
             .then(trx.commit)
             .catch((err) => {
+                console.log(err)
                 res.status(400).json('User already exists');
                 return trx.rollback;
             })
