@@ -60,7 +60,7 @@ class Home extends Component<HomeProps, HomeState> {
     this.setState({ input: event.target.value });
   };
 
-  onSubmit = () => {
+  onSubmitImage = () => {
     const { input } = this.state;
     const token: any = window.sessionStorage.getItem("token");
     this.setState({
@@ -112,7 +112,7 @@ class Home extends Component<HomeProps, HomeState> {
           <div className="face-search-container">
             <ImageForm
               onInputChange={this.onInputChange}
-              onSubmit={this.onSubmit}
+              onSubmitImage={this.onSubmitImage}
             />
             <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
           </div>

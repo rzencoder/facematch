@@ -40,11 +40,11 @@ const corsOptions = {
   }
 };
 
-if (process.env.NODE_ENV === "production") {
-  app.use(cors(corsOptions));
-} else {
-  app.use(cors());
-}
+// if (process.env.NODE_ENV === "production") {
+//   // app.use(cors(corsOptions));
+// } else {
+
+// }
 
 //Redis DB for session management
 let client;
@@ -84,32 +84,32 @@ const knex = require("knex")({
 
 //Routes
 
-app.get("/", function (req, res) {
+app.get("/", cors(corsOptions), function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-app.post("/signin", (req, res) =>
+app.post("/signin", cors(corsOptions), (req, res) =>
   signIn.signinAuth(req, res, knex, bcrypt, client)
 );
-app.post("/register", (req, res) =>
+app.post("/register", cors(corsOptions), (req, res) =>
   register.handleRegister(req, res, knex, bcrypt, client)
 );
-app.get("/profile/:id", auth.requireAuth(client), (req, res) =>
+app.get("/profile/:id", cors(corsOptions), auth.requireAuth(client), (req, res) =>
   profile.handleGetProfile(req, res, knex)
 );
-app.post("/profile/:id", auth.requireAuth(client), (req, res) =>
+app.post("/profile/:id", cors(corsOptions), auth.requireAuth(client), (req, res) =>
   profile.handleProfileUpdate(req, res, knex)
 );
-app.delete("/delete_profile/:id", auth.requireAuth(client), (req, res) =>
+app.delete("/delete_profile/:id", cors(corsOptions), auth.requireAuth(client), (req, res) =>
   profile.handleDeleteProfile(req, res, knex)
 );
-app.put("/image", auth.requireAuth(client), (req, res) =>
+app.put("/image", cors(corsOptions), auth.requireAuth(client), (req, res) =>
   image.handleImage(req, res, knex)
 );
-app.post("/imageurl", auth.requireAuth(client), (req, res) =>
+app.post("/imageurl", cors(corsOptions), auth.requireAuth(client), (req, res) =>
   image.handleImageApiCall(req, res)
 );
-app.delete("/signout", auth.requireAuth(client), (req, res) =>
+app.delete("/signout", cors(corsOptions), auth.requireAuth(client), (req, res) =>
   signOut.handleSignOut(req, res, client)
 );
 

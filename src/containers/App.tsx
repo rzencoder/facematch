@@ -23,8 +23,44 @@ type State = Readonly<typeof initialState>;
 class App extends Component {
   readonly state: State = initialState;
 
+  componentDidMount() {
+    const token = window.sessionStorage.getItem("token");
+    //Signin automatically if user has authorization token
+    if (token) {
+      fetch("/signin", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: token
+        }
+      })
+        .then(resp => resp.json())
+        .then(data => {
+          if (data && data.id) {
+            fetch(`/profile/${data.id}`, {
+              method: "get",
+              headers: {
+                "Content-Type": "application/json",
+                authorization: token
+              }
+            })
+              .then(resp => resp.json())
+              .then(user => {
+                if (user && user.username) {
+                  this.loadUser(user);
+                }
+              });
+          }
+        })
+        .catch(() => {
+          this.setState({
+            message: "Error Loading profile"
+          });
+        });
+    }
+  }
+
   loadUser = (data: any): void => {
-    console.log("oading");
     this.setState({
       isSignedIn: true,
       id: data.id,
@@ -61,38 +97,6 @@ class App extends Component {
     }
   };
 
-  componentDidMount() {
-    const token = window.sessionStorage.getItem("token");
-    if (token) {
-      fetch("/signin", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: token
-        }
-      })
-        .then(resp => resp.json())
-        .then(data => {
-          if (data && data.id) {
-            fetch(`/profile/${data.id}`, {
-              method: "get",
-              headers: {
-                "Content-Type": "application/json",
-                authorization: token
-              }
-            })
-              .then(resp => resp.json())
-              .then(user => {
-                if (user && user.username) {
-                  this.loadUser(user);
-                }
-              });
-          }
-        })
-        .catch(console.log);
-    }
-  }
-
   render() {
     const {
       isSignedIn,
@@ -104,7 +108,6 @@ class App extends Component {
       entries,
       joined
     } = this.state;
-    const homeRoute = isSignedIn ? Image : Home;
 
     return (
       <Router>
@@ -131,6 +134,7 @@ class App extends Component {
               )}
             />
           )}
+
           <Route
             path="/signin"
             render={props => (
