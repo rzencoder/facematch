@@ -56,7 +56,8 @@ class SignIn extends React.Component<Props, State> {
     return re.test(this.state.password);
   }
 
-  onSubmit = () => {
+  onSubmit = (event: any) => {
+    event.preventDefault();
     if (this.props.match.path === "/register") {
       const { password, confirmPassword, name, username } = this.state;
       if (!password || !confirmPassword || !name || !username) {
@@ -133,70 +134,67 @@ class SignIn extends React.Component<Props, State> {
     return (
       <div className="form-container">
         <div className="form">
-          <h3 className="form-title">{title}</h3>
-          <div className="form-input-container">
-            {this.state.error ? (
-              <div className="error-message">{this.state.error}</div>
-            ) : (
-              ""
-            )}
-            {title === "REGISTER" ? (
+          <form onSubmit={this.onSubmit}>
+            <h3 className="form-title">{title}</h3>
+            <div className="form-input-container">
+              {this.state.error ? (
+                <div className="error-message">{this.state.error}</div>
+              ) : (
+                ""
+              )}
+              {title === "REGISTER" ? (
+                <div className="input-container">
+                  <label htmlFor="name">Name</label>
+                  <input
+                    onChange={this.onNameChange}
+                    type="text"
+                    name="name"
+                    id="name"
+                    required
+                  />
+                </div>
+              ) : (
+                ""
+              )}
               <div className="input-container">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="username">Username</label>
                 <input
-                  onChange={this.onNameChange}
+                  onChange={this.onUsernameChange}
                   type="text"
-                  name="name"
-                  id="name"
+                  name="username"
+                  id="username"
                   required
                 />
               </div>
-            ) : (
-              ""
-            )}
-            <div className="input-container">
-              <label htmlFor="username">Username</label>
-              <input
-                onChange={this.onUsernameChange}
-                type="text"
-                name="username"
-                id="username"
-                required
-              />
-            </div>
-            <div className="input-container">
-              <label htmlFor="password">Password</label>
-              <input
-                onChange={this.onPasswordChange}
-                type="password"
-                name="password"
-                id="password"
-                required
-              />
-            </div>
-            {title === "REGISTER" ? (
               <div className="input-container">
-                <label htmlFor="confirmPassword">Confirm Password</label>
+                <label htmlFor="password">Password</label>
                 <input
-                  onChange={this.onConfirmPasswordChange}
+                  onChange={this.onPasswordChange}
                   type="password"
-                  name="confirmPassword"
-                  id="confirmPassword"
+                  name="password"
+                  id="password"
                   required
                 />
               </div>
-            ) : (
-              ""
-            )}
-          </div>
-          <div>
-            <input
-              className="submit-btn"
-              onClick={this.onSubmit}
-              type="submit"
-              value={title}
-            />
-          </div>
+              {title === "REGISTER" ? (
+                <div className="input-container">
+                  <label htmlFor="confirmPassword">Confirm Password</label>
+                  <input
+                    onChange={this.onConfirmPasswordChange}
+                    type="password"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    required
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            <div>
+              <input className="submit-btn" type="submit" value={title} />
+            </div>
+          </form>
         </div>
       </div>
     );

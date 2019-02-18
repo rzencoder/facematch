@@ -9,16 +9,18 @@ interface ImageProps {
 const ImageForm = ({ onInputChange, onSubmitImage }: ImageProps) => (
   <div>
     <div>
-      <input
-        className="url-input"
-        type="text"
-        onChange={onInputChange}
-        placeholder="Enter Image URL"
-        required
-      />
-      <button className="btn url-input-btn" onClick={onSubmitImage}>
-        Detect
-      </button>
+      <form onSubmit={onSubmitImage}>
+        <input
+          className="url-input"
+          type="text"
+          onChange={onInputChange}
+          placeholder="Enter Image URL"
+          required
+        />
+        <button className="btn url-input-btn" type="submit">
+          Detect
+        </button>
+      </form>
     </div>
   </div>
 );

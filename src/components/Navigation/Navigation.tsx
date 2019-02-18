@@ -10,7 +10,6 @@ interface NavProps {
 
 class Navigation extends Component<NavProps> {
   render() {
-    console.log("issignein", this.props.isSignedIn);
     return (
       <div className="nav-container">
         <div className="logo-container">

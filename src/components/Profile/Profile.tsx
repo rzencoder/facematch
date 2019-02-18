@@ -64,15 +64,14 @@ class Profile extends Component<ProfileProps, ProfileState> {
   showModal = (modal: string) => {
     this.setState(prevState => ({
       ...prevState,
-      [modal]: true // No error here, but can't ensure that key is in StateKeys
+      [modal]: true
     }));
   };
 
   hideModal = (modal: string) => {
-    console.log("hiding");
     this.setState(prevState => ({
       ...prevState,
-      [modal]: false // No error here, but can't ensure that key is in StateKeys
+      [modal]: false
     }));
   };
 
@@ -96,7 +95,6 @@ class Profile extends Component<ProfileProps, ProfileState> {
       .then(resp => resp.json())
       .then(user => {
         if (user && user.username) {
-          console.log(user);
           this.props.loadUser(user);
           this.props.history.push("/");
         }
@@ -108,7 +106,7 @@ class Profile extends Component<ProfileProps, ProfileState> {
     const value: string = event.target.value;
     this.setState(prevState => ({
       ...prevState,
-      [key]: value // No error here, but can't ensure that key is in StateKeys
+      [key]: value
     }));
   }
 
@@ -129,7 +127,6 @@ class Profile extends Component<ProfileProps, ProfileState> {
         })
           .then(resp => resp.json())
           .then(data => {
-            console.log(data);
             this.props.handleSignOut();
           });
       }

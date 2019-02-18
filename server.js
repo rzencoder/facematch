@@ -25,26 +25,7 @@ app.use(morgan("tiny"));
 app.use(bodyParser.json());
 app.use(expressValidator());
 app.use(compression());
-
-//Cors
-
-const whitelist = ["https://desolate-wave-89140.herokuapp.com/"];
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      console.log(origin)
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  }
-};
-
-// if (process.env.NODE_ENV === "production") {
-//   // app.use(cors(corsOptions));
-// } else {
-
-// }
+app.use(cors());
 
 //Redis DB for session management
 let client;
@@ -84,32 +65,32 @@ const knex = require("knex")({
 
 //Routes
 
-app.get("/", cors(corsOptions), function (req, res) {
+app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-app.post("/signin", cors(corsOptions), (req, res) =>
+app.post("/signin", (req, res) =>
   signIn.signinAuth(req, res, knex, bcrypt, client)
 );
-app.post("/register", cors(corsOptions), (req, res) =>
+app.post("/register", (req, res) =>
   register.handleRegister(req, res, knex, bcrypt, client)
 );
-app.get("/profile/:id", cors(corsOptions), auth.requireAuth(client), (req, res) =>
+app.get("/profile/:id", auth.requireAuth(client), (req, res) =>
   profile.handleGetProfile(req, res, knex)
 );
-app.post("/profile/:id", cors(corsOptions), auth.requireAuth(client), (req, res) =>
+app.post("/profile/:id", auth.requireAuth(client), (req, res) =>
   profile.handleProfileUpdate(req, res, knex)
 );
-app.delete("/delete_profile/:id", cors(corsOptions), auth.requireAuth(client), (req, res) =>
+app.delete("/delete_profile/:id", auth.requireAuth(client), (req, res) =>
   profile.handleDeleteProfile(req, res, knex)
 );
-app.put("/image", cors(corsOptions), auth.requireAuth(client), (req, res) =>
+app.put("/image", auth.requireAuth(client), (req, res) =>
   image.handleImage(req, res, knex)
 );
-app.post("/imageurl", cors(corsOptions), auth.requireAuth(client), (req, res) =>
+app.post("/imageurl", auth.requireAuth(client), (req, res) =>
   image.handleImageApiCall(req, res)
 );
-app.delete("/signout", cors(corsOptions), auth.requireAuth(client), (req, res) =>
+app.delete("/signout", auth.requireAuth(client), (req, res) =>
   signOut.handleSignOut(req, res, client)
 );
 

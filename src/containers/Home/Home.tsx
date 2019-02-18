@@ -60,7 +60,8 @@ class Home extends Component<HomeProps, HomeState> {
     this.setState({ input: event.target.value });
   };
 
-  onSubmitImage = () => {
+  onSubmitImage = (event: any) => {
+    event.preventDefault();
     const { input } = this.state;
     const token: any = window.sessionStorage.getItem("token");
     this.setState({
