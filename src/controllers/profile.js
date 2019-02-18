@@ -1,5 +1,4 @@
 const handleGetProfile = (req, res, knex) => {
-    console.log('1')
     const {
         id
     } = req.params;
@@ -8,7 +7,6 @@ const handleGetProfile = (req, res, knex) => {
         })
         .then(user => {
             if (user.length) {
-                console.log('2')
                 res.json(user[0]);
             } else {
                 res.status(400).json('Not Found')

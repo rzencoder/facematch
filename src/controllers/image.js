@@ -1,12 +1,12 @@
 const Clarifai = require("clarifai");
-require("dotenv").config();
 
 const ClarifaiAPIKey = process.env.CLARIFAI_API_KEY;
 const app = new Clarifai.App({
   apiKey: ClarifaiAPIKey
 });
 
-const handleApiCall = (req, res) => {
+// Call to Clarifai API to get face detection data
+const handleImageApiCall = (req, res) => {
   app.models
     .predict(Clarifai.FACE_DETECT_MODEL, req.body.input)
     .then(response => {
@@ -16,6 +16,7 @@ const handleApiCall = (req, res) => {
     });
 };
 
+// Increase serach count on image search
 const handleImage = (req, res, knex) => {
   const {
     id
@@ -32,5 +33,5 @@ const handleImage = (req, res, knex) => {
 
 module.exports = {
   handleImage: handleImage,
-  handleApiCall: handleApiCall
+  handleImageApiCall: handleImageApiCall
 };

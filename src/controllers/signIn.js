@@ -82,7 +82,6 @@ const signinAuth = (req, res, knex, bcrypt, client) => {
     return authorization ? getAuthToken(req, res, client) :
         handleSignIn(req, res, knex, bcrypt)
         .then(data => {
-            console.log('data', data)
             return data.username && data.id ? createSession(data, client) : Promise.reject(data);
         })
         .then(session => {

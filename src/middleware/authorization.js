@@ -1,3 +1,5 @@
+// Authorization middleware to handle protected routes
+
 const requireAuth = (client) => (req, res, next) => {
     const {
         authorization
@@ -9,7 +11,6 @@ const requireAuth = (client) => (req, res, next) => {
         if (err || !reply) {
             return res.status(401).json('Unauthorized')
         }
-        console.log('passed')
         return next();
     })
 }

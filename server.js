@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const expressValidator = require("express-validator");
+const compression = require('compression')
 const redis = require("redis");
 const path = require("path");
 require("dotenv").config();
@@ -16,8 +17,18 @@ const profile = require("./src/controllers/profile");
 const auth = require("./src/middleware/authorization");
 const signOut = require("./src/controllers/signOut");
 
-//CORS options
-const whitelist = ["htt", "http://example2.com"];
+const app = express();
+
+app.use(express.static(path.join(__dirname, "build")));
+app.use(helmet());
+app.use(morgan("tiny"));
+app.use(bodyParser.json());
+app.use(expressValidator());
+app.use(compression());
+
+//Cors
+
+const whitelist = ["https://desolate-wave-89140.herokuapp.com/"];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -28,26 +39,21 @@ const corsOptions = {
   }
 };
 
-const app = express();
-
-app.use(express.static(path.join(__dirname, "build")));
-app.use(helmet());
-app.use(cors());
-app.use(morgan("tiny"));
-app.use(bodyParser.json());
-app.use(expressValidator());
+if (process.env.NODE_ENV === "production") {
+  app.use(cors(corsOptions));
+} else {
+  app.use(cors());
+}
 
 //Redis DB for session management
 let client;
 
 if (process.env.NODE_ENV === "production") {
-  console.log('client prod')
   client = redis.createClient(process.env.REDISCLOUD_URL, {
     no_ready_check: true
   });
 } else {
-  console.log('client dev')
-  redis.createClient({
+  client = redis.createClient({
     host: process.env.REDIS_HOST
   });
 }
@@ -100,7 +106,7 @@ app.put("/image", auth.requireAuth(client), (req, res) =>
   image.handleImage(req, res, knex)
 );
 app.post("/imageurl", auth.requireAuth(client), (req, res) =>
-  image.handleApiCall(req, res)
+  image.handleImageApiCall(req, res)
 );
 app.delete("/signout", auth.requireAuth(client), (req, res) =>
   signOut.handleSignOut(req, res, client)
