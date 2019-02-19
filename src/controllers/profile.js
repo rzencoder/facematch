@@ -47,8 +47,9 @@ const handleProfileUpdate = (req, res, knex) => {
         username,
         name,
         avatar,
-        location
+        city
     } = req.body.formInput;
+    const location = city;
     knex('users')
         .where({
             id: id

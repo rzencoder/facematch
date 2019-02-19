@@ -3,6 +3,11 @@
 .url-input {
     width: 50%;
     padding: 10px;
+
+    @media (max-width: 500px) {
+        width: 85%;
+        margin-top: 20px;
+    }
 }
 
 .url-input-btn {

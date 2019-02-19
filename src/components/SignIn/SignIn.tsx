@@ -93,7 +93,6 @@ class SignIn extends React.Component<Props, State> {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.saveAuthToken(data.token);
         if (data && data.id) {
           fetch(`/profile/${data.id}`, {
@@ -113,7 +112,6 @@ class SignIn extends React.Component<Props, State> {
               }
             });
         } else {
-          console.log(data);
           this.setState({
             error: data
           });
@@ -128,7 +126,6 @@ class SignIn extends React.Component<Props, State> {
     const { redirectToReferrer } = this.state;
     const { isSignedIn } = this.props;
     if (redirectToReferrer || isSignedIn) {
-      console.log("ok");
       return <Redirect to={from} />;
     }
     return (

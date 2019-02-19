@@ -3,6 +3,10 @@
 .landing-title {
     font-size: 50px;
     font-weight: 400;
+
+    @media (max-width: 500px) {
+        font-size: 36px;
+    }
 }
 
 .landing-title span {
@@ -11,6 +15,10 @@
 
 .landing-img {
     width: 300px;
+
+    @media (max-width: 500px) {
+        width: 200px;
+    }
 }
 
 .tagline {
