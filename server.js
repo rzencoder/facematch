@@ -102,7 +102,7 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-app.listen(process.env.PORT, () => {
+app.listen(8080 || process.env.PORT, () => {
   console.log(`app is running on port ${process.env.PORT}`);
   console.log(process.env.NODE_ENV)
 });

@@ -135,7 +135,8 @@ class Profile extends Component<ProfileProps, ProfileState> {
 
   render() {
     const { avatar, name, username, city } = this.state;
-    const avatars = [1, 1, 1, 1, 1, 1].map((avatar: any, i: number) => {
+    const avatarArray = [0, 0, 0, 0, 0, 0];
+    const avatars = avatarArray.map((avatar: any, i: number) => {
       return (
         <div
           key={i}
