@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const expressValidator = require("express-validator");
-const compression = require('compression')
+const compression = require("compression");
 const redis = require("redis");
 const path = require("path");
 require("dotenv").config();
@@ -48,14 +48,14 @@ if (process.env.NODE_ENV === "production") {
   pgDatabase = {
     connectionString: process.env.DATABASE_URL,
     ssl: true
-  }
+  };
 } else {
   pgDatabase = {
     host: process.env.PG_HOST,
     user: process.env.PG_USER,
     password: process.env.PG_PASSWORD,
     database: process.env.PG_DATABASE
-  }
+  };
 }
 
 const knex = require("knex")({
@@ -65,7 +65,7 @@ const knex = require("knex")({
 
 //Routes
 
-app.get("/", function (req, res) {
+app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
@@ -95,11 +95,11 @@ app.delete("/signout", auth.requireAuth(client), (req, res) =>
 );
 
 // production mode
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'build')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-  })
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+  });
 }
 
 app.listen(process.env.PORT, () => {
