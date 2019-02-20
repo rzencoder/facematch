@@ -26,10 +26,10 @@
     font-weight: 700;
     font-size: 16px;
     cursor: pointer;
-}
 
-.submit-btn:hover {
-    background: lighten($secondary-background-color, 8%);
+    &:hover {
+        background: lighten($secondary-background-color, 8%);
+    }
 }
 
 .form-title {
@@ -48,23 +48,23 @@
 .input-container {
     display: flex;
     flex-direction: column;
-}
 
-.input-container label {
-    font-weight: 700;
-    padding: 5px 0;
-}
+    label {
+        font-weight: 700;
+        padding: 5px 0;
+    }
 
-.input-container input {
-    border-radius: 2px;
-    background: #fcfdf9;
-    padding: 3px;
-    border: 1.5px solid #333;
+    input {
+        border-radius: 2px;
+        background: #fcfdf9;
+        padding: 3px;
+        border: 1.5px solid #333;
+    }
 }
 
 .error-message {
-    background: rgb(255, 215, 215);
-    color: rgb(207, 40, 40);
+    background: #ffd7d7;
+    color: #cf2828;
     padding: 5px;
     margin: 5px 0;
 }

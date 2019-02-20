@@ -4,26 +4,24 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+
+    @media (max-width: 350px) {
+        justify-content: flex-end;
+    }
 }
 
 .logo-container {
     display: flex;
     padding-left: 10px;
-}
 
-@media (max-width: 350px) {
-    .logo-container {
+    @media (max-width: 350px) {
         display: none;
     }
 
-    .nav-container {
-        justify-content: flex-end;
+    div {
+        display: flex;
+        align-items: center;
     }
-}
-
-.logo-container div {
-    display: flex;
-    align-items: center;
 }
 
 .logo {
@@ -32,18 +30,18 @@
 
 .logo-text {
     padding: 10px;
-}
 
-.logo-text span {
-    font-weight: 700;
+    span {
+        font-weight: 700;
+    }
 }
 
 .nav {
     display: flex;
     justify-content: center;
-}
 
-.nav p {
-    padding: 10px;
-    cursor: pointer;
+    p {
+        padding: 10px;
+        cursor: pointer;
+    }
 }

@@ -7,11 +7,13 @@
     @media (max-width: 500px) {
         font-size: 36px;
     }
+
+    span {
+        font-weight: 700;
+    }
 }
 
-.landing-title span {
-    font-weight: 700;
-}
+
 
 .landing-img {
     width: 300px;
