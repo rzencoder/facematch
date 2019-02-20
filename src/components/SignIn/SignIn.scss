@@ -26,10 +26,10 @@
     font-weight: 700;
     font-size: 16px;
     cursor: pointer;
+}
 
-    &:hover {
-        background: lighten($secondary-background-color, 8%);
-    }
+.submit-btn:hover {
+    background: lighten($secondary-background-color, 8%);
 }
 
 .form-title {
@@ -48,23 +48,23 @@
 .input-container {
     display: flex;
     flex-direction: column;
+}
 
-    label {
-        font-weight: 700;
-        padding: 5px 0;
-    }
+.input-container label {
+    font-weight: 700;
+    padding: 5px 0;
+}
 
-    input {
-        border-radius: 2px;
-        background: #fcfdf9;
-        padding: 3px;
-        border: 1.5px solid #333;
-    }
+.input-container input {
+    border-radius: 2px;
+    background: #fcfdf9;
+    padding: 3px;
+    border: 1.5px solid #333;
 }
 
 .error-message {
-    background: #ffd7d7;
-    color: #cf2828;
+    background: rgb(255, 215, 215);
+    color: rgb(207, 40, 40);
     padding: 5px;
     margin: 5px 0;
 }

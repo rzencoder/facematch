@@ -9,7 +9,7 @@
 }
 
 .profile-container {
-    background: linear-gradient(145deg, #dd4112, #f17612);
+    background: linear-gradient(145deg, rgb(221, 65, 18), rgb(241, 118, 18));
     width: 30%;
     min-width: 350px;
     height: 95%;
@@ -20,6 +20,21 @@
     }
 }
 
+.close-btn {
+    position: absolute;
+    color: $secondary-font-color;
+    right: 5px;
+    top: 0px;
+    font-size: 40px;
+    transition: color 0.3s;
+    font-weight: 700;
+
+    &:hover {
+        color: lighten($secondary-font-color, 10%);
+        cursor: pointer;
+    }
+}
+
 .profile-top {
     position: relative;
     height: 50%;
@@ -27,21 +42,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.profile-middle {
-    background: #ddd;
-    padding: 5px;
-
-    >div {
-        height: 15px;
-        padding: 5px;
-    }
-}
-
-.profile-bottom {
-    background: #fdfff5;
-    border-radius: 0 0 10px 10px;
 }
 
 .avatar {
@@ -79,6 +79,21 @@
 .avatar6 {
     background: url("./img/avatar6.png");
     background-size: contain;
+}
+
+.profile-middle {
+    background: #ddd;
+    padding: 5px;
+
+    >div {
+        height: 15px;
+        padding: 5px;
+    }
+}
+
+.profile-bottom {
+    background: rgb(253, 255, 245);
+    border-radius: 0 0 10px 10px;
 }
 
 .profile-item {
@@ -142,21 +157,6 @@
 
     &:hover {
         background: lighten($background-color, 10%);
-    }
-}
-
-.close-btn {
-    position: absolute;
-    color: $secondary-font-color;
-    right: 5px;
-    top: 0px;
-    font-size: 40px;
-    transition: color 0.3s;
-    font-weight: 700;
-
-    &:hover {
-        color: lighten($secondary-font-color, 10%);
-        cursor: pointer;
     }
 }
 
